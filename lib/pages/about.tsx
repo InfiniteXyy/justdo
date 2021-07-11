@@ -1,10 +1,16 @@
-import { Text, View } from 'native-base'
-import React from 'react'
+import { Center, Text, VStack } from 'native-base'
+import { SafeAreaView } from 'react-native'
+import { AppTitle } from '../components'
 
 export function About() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
+    <SafeAreaView>
+      <VStack height="100%">
+        <AppTitle />
+        <Center flex={1}>
+          <Text>About Screen</Text>
+        </Center>
+      </VStack>
+    </SafeAreaView>
   )
 }
