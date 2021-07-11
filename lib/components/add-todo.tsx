@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import { Fab, Input, Modal, View } from 'native-base'
 import { useState } from 'react'
+import { Platform } from 'react-native'
 import { todoStore } from '../data'
 import { IconPlus } from '../icons'
 
@@ -19,8 +20,8 @@ export const AddTodo = observer(() => {
     <View>
       <Modal isOpen={inputVisible} onClose={() => setInputVisible(false)}>
         <Modal.Content w="100%" borderTopRadius="0" safeArea borderBottomRadius="20" mb="auto" mt="0">
-          <Modal.Header>添加一个事件</Modal.Header>
-          <Modal.Body p="0">
+          <Modal.Header>添加一个待办</Modal.Header>
+          <Modal.Body p="0" pb={Platform.select({ android: '4' })}>
             <Input
               onSubmitEditing={handleAdd}
               autoFocus

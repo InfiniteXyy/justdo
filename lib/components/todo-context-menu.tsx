@@ -1,5 +1,5 @@
 import { Actionsheet, HStack, Modal, Pressable, Text } from 'native-base'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ITodo, todoStore } from '../data'
 import { IconSwitch, IconTrash } from '../icons'
 

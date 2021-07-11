@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { observer } from 'mobx-react-lite'
 import { Button, Divider, Heading, HStack, Menu, Modal, Pressable, Text, TextField } from 'native-base'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { todoStore } from '../data'
 import { IconChevronDown } from '../icons'
 import { AppTitle } from './app-title'

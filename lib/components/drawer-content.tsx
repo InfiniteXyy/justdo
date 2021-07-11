@@ -1,7 +1,6 @@
 import { DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer'
 import dayjs from 'dayjs'
 import { Box, Divider, Pressable, Text, VStack } from 'native-base'
-import React from 'react'
 
 export function DrawerContent(props: DrawerContentComponentProps) {
   const routers = [
@@ -17,7 +16,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
             Just Todo
           </Text>
           <Text fontSize={14} mt={1} color="gray.500" fontWeight={500}>
-            {dayjs().format("YYYY 年 MM 月 DD 日")}
+            {dayjs().format('YYYY 年 MM 月 DD 日')}
           </Text>
         </Box>
         <VStack divider={<Divider />} space={4}>

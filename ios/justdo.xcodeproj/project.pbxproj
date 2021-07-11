@@ -590,6 +590,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -647,6 +648,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
