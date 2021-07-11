@@ -1,17 +1,17 @@
+import { observer } from 'mobx-react-lite'
 import { Fab, Input, Modal, View } from 'native-base'
 import { useState } from 'react'
-import { TodoStore } from '../data'
+import { todoStore } from '../data'
 import { IconPlus } from '../icons'
 
-export function AddTodo() {
-  const { addTodo } = TodoStore.useActions()
+export const AddTodo = observer(() => {
   const [content, setContent] = useState('')
   const [inputVisible, setInputVisible] = useState(false)
 
   const handleAdd = () => {
     if (content === '') return
     setContent('')
-    addTodo(content)
+    todoStore.addTodo(content)
     setInputVisible(false)
   }
 
@@ -37,4 +37,4 @@ export function AddTodo() {
       <Fab placement="bottom-right" colorScheme="blue" icon={<IconPlus />} onPress={() => setInputVisible(true)} />
     </View>
   )
-}
+})
