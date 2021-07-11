@@ -4,7 +4,7 @@ import { NativeBaseProvider } from 'native-base'
 import 'react-native-gesture-handler'
 import 'react-native-get-random-values'
 import { DrawerContent } from './components'
-import { About, Home } from './pages'
+import { About, Home, projects } from './pages'
 
 const Drawer = createDrawerNavigator()
 
@@ -15,6 +15,7 @@ const App = () => {
         <Drawer.Navigator drawerContent={DrawerContent}>
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="About" component={About} />
+          <Drawer.Screen name="Projects" component={projects} />
         </Drawer.Navigator>
       </NativeBaseProvider>
     </NavigationContainer>

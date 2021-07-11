@@ -32,6 +32,11 @@ const Todo = types
       ;(getRoot(todo) as ITodoStore).deleteTodo(todo.id)
     },
   }))
+  .views((todo) => ({
+    get project() {
+      return ((getRoot(todo) as any).projects as IProject[]).find((i) => i.id === todo.projectId)!
+    },
+  }))
 
 export type ITodoStore = Instance<typeof TodoStore>
 const TodoStore = types

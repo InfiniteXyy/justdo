@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
 import { observer } from 'mobx-react-lite'
-import { Button, Divider, Heading, HStack, Menu, Modal, Pressable, Text, TextField } from 'native-base'
-import { useState } from 'react'
+import { Button, Divider, Heading, HStack, Menu, Modal, Pressable, Text } from 'native-base'
+import { useCallback, useState } from 'react'
+import { TextInput } from 'react-native'
 import { todoStore } from '../data'
 import { IconChevronDown } from '../icons'
 import { AppTitle } from './app-title'
@@ -10,11 +11,11 @@ export const HomeTitle = observer(() => {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
 
-  const handleCreateProject = () => {
+  const handleCreateProject = useCallback(() => {
     todoStore.addProject(inputValue)
     setCreateProjectModalOpen(false)
     setInputValue('')
-  }
+  }, [inputValue])
 
   return (
     <AppTitle
@@ -24,7 +25,7 @@ export const HomeTitle = observer(() => {
             placement="bottom left"
             trigger={(triggerProps) => {
               return (
-                <Pressable {...triggerProps} accessibilityLabel="切换计划组">
+                <Pressable {...triggerProps} accessibilityLabel="切换计划组" py="3">
                   <HStack alignItems="center" space={3}>
                     <Heading size="sm" color="gray.800">
                       {todoStore.activeProject.title || 'Loading'}
@@ -54,12 +55,7 @@ export const HomeTitle = observer(() => {
           </Menu>
           <Modal isOpen={createProjectModalOpen} onClose={() => setCreateProjectModalOpen(false)}>
             <Modal.Content>
-              <TextField
-                variant="unstyled"
-                placeholder="输入新的项目名"
-                value={inputValue}
-                onChangeText={setInputValue}
-              />
+              <TextInput placeholder="输入新的项目名" autoFocus onChangeText={setInputValue} />
               <Modal.Footer>
                 <Button onPress={handleCreateProject} size="sm" colorScheme="blue">
                   创建

@@ -6,6 +6,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
   const routers = [
     { key: 'Home', title: '主页' },
     { key: 'About', title: '关于' },
+    { key: 'Projects', title: '项目' },
   ] as const
 
   return (
