@@ -1,4 +1,5 @@
-import { Button, Divider, Heading, HStack, Menu, Modal, Pressable, TextField } from 'native-base'
+import dayjs from 'dayjs'
+import { Button, Divider, Heading, HStack, Menu, Modal, Pressable, Text, TextField } from 'native-base'
 import React, { useState } from 'react'
 import { TodoStore } from '../data'
 import { IconChevronDown } from '../icons'
@@ -27,9 +28,12 @@ export function HomeTitle() {
             trigger={(triggerProps) => {
               return (
                 <Pressable {...triggerProps} accessibilityLabel="切换计划组">
-                  <HStack alignItems="center" space={2}>
-                    <Heading size="md">{currentProject?.title || 'Loading'}</Heading>
-                    <IconChevronDown size="3" color="gray.300" />
+                  <HStack alignItems="center" space={3}>
+                    <Heading size="sm" color="gray.800">
+                      {currentProject?.title || 'Loading'}
+                    </Heading>
+                    <Text color="gray.400">{dayjs().format('MM 月 DD 日')}</Text>
+                    <IconChevronDown size="2" color="gray.500" />
                   </HStack>
                 </Pressable>
               )

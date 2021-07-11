@@ -9,17 +9,9 @@ interface AppTitleProps {
 export function AppTitle(props: AppTitleProps) {
   const navigation = useNavigation()
   return (
-    <HStack
-      justifyContent="space-between"
-      width="100%"
-      px="4"
-      h="12"
-      alignItems="center"
-      borderBottomWidth="1"
-      borderBottomColor="gray.200"
-    >
+    <HStack justifyContent="space-between" width="100%" pl="4" h="12" alignItems="center">
       {props.header || <View />}
-      <Pressable onPress={(navigation as any).toggleDrawer}>
+      <Pressable onPress={(navigation as any).toggleDrawer} p="4">
         <HamburgerIcon size="4" color="gray.400" />
       </Pressable>
     </HStack>
