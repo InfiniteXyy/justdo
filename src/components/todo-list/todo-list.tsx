@@ -19,16 +19,18 @@ const TodoItem = observer((props: { todo: ITodo }) => {
       <View marginH-10>
         <Text
           numberOfLines={1}
-          text65
-          dark50={todo.isCompleted}
+          text70M
+          dark70={todo.isCompleted}
           dark10={!todo.isCompleted}
           style={{ textDecorationLine: todo.isCompleted ? 'line-through' : undefined }}
         >
           {todo.title}
         </Text>
-        <Text dark60 text90M numberOfLines={1}>
-          {todo.description}
-        </Text>
+        {todo.description && (
+          <Text dark60 dark70={todo.isCompleted} text80 numberOfLines={1}>
+            {todo.description}
+          </Text>
+        )}
       </View>
     </TouchableOpacity>
   )
@@ -40,16 +42,23 @@ const TodoProject = observer((props: { project: IProject }) => {
   const [isExpanded, setIsExpanded] = useState(true)
 
   return (
-    <Card marginB-1 borderRadius={0} enableShadow={false} paddingV-10 centerV>
+    <Card marginB-1 borderRadius={0} enableShadow={false} centerV>
       <ExpandableSection
         expanded={isExpanded}
         onPress={() => setIsExpanded(!isExpanded)}
         sectionHeader={
-          <View row spread centerV marginH-20 marginB-10>
-            <Text text60 grey20>
+          <View row centerV marginH-20 paddingV-10>
+            <Text text65 blue10 style={{ fontWeight: 'bold' }}>
               {project.title}
             </Text>
-            <Ionicons name={isExpanded ? 'chevron-up' : 'chevron-down'} size={18} color={Colors.grey50} />
+            <View br40 bg-grey70 paddingH-10 marginL-10>
+              <Text text80 dark50 style={{ fontWeight: 'bold' }}>
+                {project.status.unfinished}
+              </Text>
+            </View>
+            <View flexG right>
+              <Ionicons name={isExpanded ? 'chevron-up' : 'chevron-down'} size={18} color={Colors.grey50} />
+            </View>
           </View>
         }
       >

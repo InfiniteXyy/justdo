@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { Colors } from 'react-native-ui-lib'
-import { AboutParamList, BottomTabParamList, HomeParamList } from '../../types'
+import { AboutParamList,BottomTabParamList,HomeParamList } from '../../types'
 import AboutScreen from '../screens/about-screen'
 import HomeScreen from '../screens/home-screen'
 
@@ -21,14 +21,16 @@ export default function BottomTabNavigator() {
         name="Home"
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarLabel: '首页',
         }}
       />
       <BottomTab.Screen
         name="About"
         component={AboutNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="person" color={color} />,
+          tabBarLabel: '关于',
         }}
       />
     </BottomTab.Navigator>
@@ -48,7 +50,11 @@ const HomeStack = createStackNavigator<HomeParamList>()
 function HomeNavigator() {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} options={{ cardStyle: { backgroundColor: Colors.white } }} />
+      <HomeStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerTitle: '首页', cardStyle: { backgroundColor: Colors.white }, headerShown: false }}
+      />
     </HomeStack.Navigator>
   )
 }

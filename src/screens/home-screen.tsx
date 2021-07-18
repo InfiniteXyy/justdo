@@ -1,17 +1,19 @@
-import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { Colors, Text, View } from 'react-native-ui-lib'
-import { AddTodo, TodoList } from '../components'
+import { Platform, SafeAreaView as RNSafeArea } from 'react-native'
+import { SafeAreaView as SafeArea } from 'react-native-safe-area-context'
+import { View } from 'react-native-ui-lib'
+import { AddTodo, SearchTodo, TodoList } from '../components'
+
+const SafeAreaView = Platform.select({ ios: RNSafeArea }) || SafeArea
 
 export default function HomeScreen() {
   return (
-    <View height="100%">
-      <View row centerV spread marginH-20 marginV-15>
-        <Text text50># Today</Text>
-        <Ionicons name="search-circle-sharp" size={34} color={Colors.grey50} />
+    <SafeAreaView>
+      <View height="100%">
+        <SearchTodo />
+        <TodoList />
+        <AddTodo />
       </View>
-      <TodoList />
-      <AddTodo />
-    </View>
+    </SafeAreaView>
   )
 }

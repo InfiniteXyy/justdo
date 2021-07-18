@@ -1,15 +1,15 @@
 import { Ionicons } from '@expo/vector-icons'
 import { observer } from 'mobx-react-lite'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { KeyboardAvoidingView, TextInput } from 'react-native'
-import { Button, Colors, Modal, Text, View } from 'react-native-ui-lib'
+import { Button, Colors, Modal, Text, TouchableOpacity, View } from 'react-native-ui-lib'
 import { todoList } from '../../data'
 import { Tag } from '../ui'
 
 export const AddTodo = observer(() => {
   const [content, setContent] = useState('')
   const [inputVisible, setInputVisible] = useState(false)
-  const inputRef = useRef<TextInput | null>(null)
+  const [editType, setEditType] = useState<'todo' | 'project'>('todo')
 
   const handleAdd = useCallback(() => {
     if (content === '') return
@@ -17,14 +17,6 @@ export const AddTodo = observer(() => {
     todoList.addTodo(content)
     setInputVisible(false)
   }, [content])
-
-  useEffect(() => {
-    if (inputVisible) {
-      setTimeout(() => inputRef.current?.focus(), 50)
-    } else {
-      inputRef.current?.blur()
-    }
-  }, [inputVisible])
 
   function renderDialog() {
     return (
@@ -44,20 +36,30 @@ export const AddTodo = observer(() => {
           }}
           behavior="padding"
         >
-          <View marginH-16 spread marginT-30>
-            <Text text60>添加一个新的事项</Text>
+          <View marginH-16 row centerV spread marginT-30>
+            <Text text60>{editType === 'todo' ? '添加一个新的待办' : '添加一个新的项目'}</Text>
+            <TouchableOpacity
+              br20
+              bg-dark80
+              padding-2
+              onPress={() => setEditType(editType === 'todo' ? 'project' : 'todo')}
+            >
+              <Ionicons name="swap-horizontal" size={18} color={Colors.dark30} />
+            </TouchableOpacity>
           </View>
           <View margin-20>
             <TextInput
-              ref={inputRef}
+              autoFocus
               onSubmitEditing={handleAdd}
               onChangeText={setContent}
               placeholder="添加待办，输入 Enter 确定"
             />
-            <View row right>
-              <Tag name="优先级" />
-              <Tag name="关联到" />
-            </View>
+            {editType === 'todo' && (
+              <View row right>
+                <Tag name="优先级" />
+                <Tag name="关联到" />
+              </View>
+            )}
           </View>
         </KeyboardAvoidingView>
       </Modal>
