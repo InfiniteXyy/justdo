@@ -2,7 +2,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import { FlatList } from 'react-native'
-import { Card, Colors, ExpandableSection, Text, TouchableOpacity, View } from 'react-native-ui-lib'
+import { Colors, ExpandableSection, Text, TouchableOpacity, View } from 'react-native-ui-lib'
 import { IProject, ITodo, todoList } from '../../data'
 import { EmptyView } from './empty-view'
 
@@ -42,33 +42,31 @@ const TodoProject = observer((props: { project: IProject }) => {
   const [isExpanded, setIsExpanded] = useState(true)
 
   return (
-    <Card marginB-1 borderRadius={0} enableShadow={false} centerV>
-      <ExpandableSection
-        expanded={isExpanded}
-        onPress={() => setIsExpanded(!isExpanded)}
-        sectionHeader={
-          <View row centerV marginH-20 paddingV-10>
-            <Text text65 blue10 style={{ fontWeight: 'bold' }}>
-              {project.title}
+    <ExpandableSection
+      expanded={isExpanded}
+      onPress={() => setIsExpanded(!isExpanded)}
+      sectionHeader={
+        <View row centerV marginH-20 paddingV-10>
+          <Text text65 blue10 style={{ fontWeight: 'bold' }}>
+            {project.title}
+          </Text>
+          <View br40 bg-grey70 paddingH-10 marginL-10>
+            <Text text80 dark50 style={{ fontWeight: 'bold' }}>
+              {project.status.unfinished}
             </Text>
-            <View br40 bg-grey70 paddingH-10 marginL-10>
-              <Text text80 dark50 style={{ fontWeight: 'bold' }}>
-                {project.status.unfinished}
-              </Text>
-            </View>
-            <View flexG right>
-              <Ionicons name={isExpanded ? 'chevron-up' : 'chevron-down'} size={18} color={Colors.grey50} />
-            </View>
           </View>
-        }
-      >
-        <View>
-          {project.todos.map((todo) => (
-            <TodoItem todo={todo} key={todo.id} />
-          ))}
+          <View flexG right>
+            <Ionicons name={isExpanded ? 'chevron-up' : 'chevron-down'} size={18} color={Colors.grey50} />
+          </View>
         </View>
-      </ExpandableSection>
-    </Card>
+      }
+    >
+      <View>
+        {project.todos.map((todo) => (
+          <TodoItem todo={todo} key={todo.id} />
+        ))}
+      </View>
+    </ExpandableSection>
   )
 })
 export const TodoList = observer(() => {
