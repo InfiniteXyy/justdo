@@ -9,9 +9,7 @@ export const ProjectNode = types
   })
   .views((project) => ({
     get todos(): ITodo[] {
-      return (getRoot(project) as any).todos
-        .filter((i: any) => i.projectId === project.id)
-        .sort((i: any) => (i.isCompleted ? 1 : -1))
+      return (getRoot(project) as any).todos.filter((i: any) => i.projectId === project.id)
     },
     get status(): { unfinished: number; total: number } {
       return {

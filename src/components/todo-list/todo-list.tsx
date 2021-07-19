@@ -1,7 +1,7 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
-import { FlatList } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Colors, ExpandableSection, Text, TouchableOpacity, View } from 'react-native-ui-lib'
 import { IProject, ITodo, todoList } from '../../data'
 import { EmptyView } from './empty-view'
@@ -19,7 +19,7 @@ const TodoItem = observer((props: { todo: ITodo }) => {
       <View marginH-10>
         <Text
           numberOfLines={1}
-          text70M
+          text70
           dark70={todo.isCompleted}
           dark10={!todo.isCompleted}
           style={{ textDecorationLine: todo.isCompleted ? 'line-through' : undefined }}
@@ -70,16 +70,27 @@ const TodoProject = observer((props: { project: IProject }) => {
   )
 })
 export const TodoList = observer(() => {
+  const draftTodos = todoList.todos.filter((i) => !i.projectId)
   return (
     <>
       {todoList.projects.length === 0 ? (
         <EmptyView />
       ) : (
-        <FlatList<IProject>
-          data={todoList.projects}
-          keyExtractor={(project) => project.id}
-          renderItem={({ item }) => <TodoProject key={item.id} project={item} />}
-        />
+        <ScrollView>
+          {true && (
+            <TodoProject
+              project={{
+                id: '',
+                title: '草稿箱',
+                todos: draftTodos,
+                status: { total: draftTodos.length, unfinished: draftTodos.filter((i) => !i.isCompleted).length },
+              }}
+            />
+          )}
+          {todoList.projects.map((project) => (
+            <TodoProject key={project.id} project={project} />
+          ))}
+        </ScrollView>
       )}
     </>
   )
