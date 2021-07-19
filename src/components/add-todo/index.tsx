@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useState } from 'react'
 import { KeyboardAvoidingView, TextInput } from 'react-native'
@@ -73,11 +73,11 @@ export const AddTodo = observer(() => {
         bg-dark10
         round
         onPress={() => setInputVisible(true)}
-        style={{ right: 0, bottom: 0, position: 'absolute' }}
+        style={{ right: 0, bottom: 0, position: 'absolute', height: 60, width: 60 }}
         margin-20
         enableShadow
       >
-        <Ionicons name="add" size={40} color="white" />
+        <MaterialIcons name="add" size={40} color="white" />
       </Button>
     )
   }

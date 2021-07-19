@@ -22,7 +22,7 @@ export const SearchTodo = observer(() => {
                     {'>'}
                   </Text>
                   <Text text50 dark10={hasValue} dark60={!hasValue}>
-                    {hasValue ? value : 'filter'}
+                    {hasValue ? value : '输入关键词或筛选条件'}
                   </Text>
                 </View>
               )
