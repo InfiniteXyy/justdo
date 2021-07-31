@@ -1,93 +1,120 @@
-import { Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
-import { ScrollView, TouchableNativeFeedback, TouchableOpacity } from 'react-native'
+import React, { useEffect, useMemo, useState } from 'react'
+import { RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
-import { ActionSheet, Colors, Drawer, Text, View } from 'react-native-ui-lib'
-import { ITodo, todoList } from '../../data'
-import { useHeaderRight } from '../../hooks/use-header-right'
+import { Colors, Text, View } from 'react-native-ui-lib'
+import { todoFilters } from '../../constant'
+import { todoList } from '../../data'
+import { useActiveTodo } from '../../hooks/use-active-todo'
+import { useHeader } from '../../hooks/use-header'
 import { AddTodo } from '../add-todo'
+import { DropdownMenu, Modal } from '../ui'
 import { EmptyView } from './empty-view'
-
-const TodoItem = observer((props: { todo: ITodo }) => {
-  const { todo } = props
-  return (
-    <Drawer
-      leftItem={{ text: '完成', background: 'green' }}
-      rightItems={[{ text: '删除', background: 'red' }]}
-      useNativeAnimations
-    >
-      <TouchableNativeFeedback>
-        <View paddingH-20 paddingV-10 row centerV bg-white>
-          <TouchableOpacity onPress={todo.toggleStatus}>
-            <MaterialIcons
-              name={!todo.isCompleted ? 'check-box-outline-blank' : 'check-box'}
-              size={24}
-              color={Colors.grey40}
-            />
-          </TouchableOpacity>
-          <View marginH-10>
-            <Text
-              numberOfLines={1}
-              text70
-              dark70={todo.isCompleted}
-              dark10={!todo.isCompleted}
-              style={{ textDecorationLine: todo.isCompleted ? 'line-through' : undefined }}
-            >
-              {todo.title}
-            </Text>
-            {todo.description && (
-              <Text dark60 dark70={todo.isCompleted} text80 numberOfLines={1}>
-                {todo.description}
-              </Text>
-            )}
-          </View>
-        </View>
-      </TouchableNativeFeedback>
-    </Drawer>
-  )
-})
+import { TodoItem } from './todo-item'
 
 export const TodoList = gestureHandlerRootHOC(
   observer(() => {
+    const navigation = useNavigation()
     const [addTodoVisible, setAddTodoVisible] = useState(false)
-    const [optionsMenuVisible, setOptionsMenuVisible] = useState(false)
-    useHeaderRight(
-      <View flex centerV row paddingH-16>
-        <TouchableOpacity onPress={() => setAddTodoVisible(true)}>
-          <Ionicons name="add" size={32} style={{ marginRight: 10 }} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setOptionsMenuVisible(true)}>
-          <Ionicons name="ellipsis-horizontal" size={24} />
-        </TouchableOpacity>
-      </View>
+    const [menuVisible, setMenuVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
+    const setHeader = useHeader((state) => state.setHeader)
+    const { activeTodoId, setActiveTodoId } = useActiveTodo()
+
+    const activeTodoList = useMemo(
+      () => todoList.todos.filter((i) => activeTodoId.includes(i.id)),
+      [todoList.todos, activeTodoId]
     )
+
+    useEffect(() => {
+      if (activeTodoList.length === 0) setModalVisible(false)
+    }, [activeTodoList.length])
+
+    useEffect(() => {
+      if (activeTodoList.length === 0) {
+        setHeader({
+          right: (
+            <View flex centerV row paddingH-16>
+              <TouchableOpacity onPress={() => setAddTodoVisible(true)}>
+                <Ionicons name="add" size={32} style={{ marginRight: 10 }} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setMenuVisible((i) => !i)}>
+                <Ionicons name="ellipsis-horizontal" size={24} />
+              </TouchableOpacity>
+            </View>
+          ),
+        })
+      } else {
+        setHeader({
+          leftIcon: (
+            <TouchableOpacity onPress={() => setActiveTodoId([])}>
+              <View paddingL-20 paddingR-10 marginR-10 style={{ borderRightColor: Colors.dark80, borderRightWidth: 1 }}>
+                <Ionicons name="md-checkmark" size={24} style={{ marginRight: 10 }} />
+              </View>
+            </TouchableOpacity>
+          ),
+          left: <Text text70BO>已选中：{activeTodoList.length}</Text>,
+          right: (
+            <View flex centerV row paddingH-16>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <Ionicons name="archive" size={20} style={{ marginRight: 10 }} />
+              </TouchableOpacity>
+            </View>
+          ),
+        })
+      }
+    }, [activeTodoList])
+
     return (
       <>
         {todoList.projects.length === 0 ? (
           <EmptyView />
         ) : (
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                size={2}
+                refreshing={false}
+                title="释放来添加新的待办"
+                onRefresh={() => setAddTodoVisible(true)}
+              />
+            }
+          >
             {todoList.todos.map((todo) => (
               <TodoItem todo={todo} key={todo.id} />
             ))}
           </ScrollView>
         )}
         <AddTodo visible={addTodoVisible} onClose={() => setAddTodoVisible(false)} />
-        <ActionSheet
-          title={'操作'}
-          visible={optionsMenuVisible}
-          onDismiss={() => setOptionsMenuVisible(false)}
-          useNativeIOS
-          options={[
-            { label: '计划' },
-            { label: '回顾' },
-            { label: '同步' },
-            { label: '分组查看' },
-            { label: '标签过滤' },
-            { label: '搜索' },
+        <DropdownMenu
+          menuItems={[
+            { label: '计划', onPress: () => navigation.navigate('Plan') },
+            { label: '回顾', onPress: () => {} },
+            { label: '同步', onPress: () => {} },
+            { label: '分组查看', onPress: () => {} },
+            { label: '标签过滤', onPress: () => {} },
+            { label: '搜索', onPress: () => {} },
           ]}
+          visible={menuVisible}
+          setVisible={setMenuVisible}
+          position={{ top: 10, right: 10 }}
         />
+        <Modal visible={modalVisible} setVisible={setModalVisible} title="移动到">
+          <View>
+            {Object.entries(todoFilters).map(([key, value]) => (
+              <TouchableOpacity key={key} onPress={() => {}}>
+                <View height={40} centerV row>
+                  <Ionicons name={value.icon as any} size={20} color={Colors.grey30} />
+                  <Text marginL-18 text79>
+                    {value.title}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </Modal>
       </>
     )
   })

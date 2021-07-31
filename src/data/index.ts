@@ -36,6 +36,6 @@ export const todoList = TodoListNode.create({
   todos: mockTodos,
 })
 
-persist('todo-store-mst', todoList, {
-  storage: AsyncStorage,
-})
+// persist('todo-store-mst', todoList, {
+//   storage: AsyncStorage,
+// })

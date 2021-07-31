@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
@@ -27,6 +28,7 @@ export const AddTodo = observer(({ visible, onClose }: { visible: boolean; onClo
         <KeyboardAwareScrollView>
           <View marginH-16 row centerV spread marginT-30>
             <Text text60>添加一个新的待办</Text>
+            <Ionicons name="close-circle" size={30} color={Colors.dark40} onPress={onClose} />
           </View>
           <View margin-20>
             <AddTodoForm onSubmit={handleAdd} />
