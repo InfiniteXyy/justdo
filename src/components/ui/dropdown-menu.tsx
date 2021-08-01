@@ -23,7 +23,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
   }))
 
   useEffect(() => {
-    animProgress.value = withTiming(visible ? 1 : 0, { easing: Easing.cubic, duration: 200 })
+    animProgress.value = withTiming(visible ? 1 : 0, { easing: Easing.ease, duration: 300 })
   }, [visible])
 
   return (
@@ -57,13 +57,15 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   dropdown: {
-    shadowOpacity: 0.2,
-    shadowColor: 'rgba(0,0,0,0.3)',
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
+    // shadowOpacity: 0.2,
+    // shadowColor: 'rgba(0,0,0,0.3)',
+    // shadowRadius: 3,
+    // shadowOffset: { width: 0, height: 4 },
+    // elevation: 3,
     backgroundColor: 'white',
     position: 'absolute',
     width: 200,
+    borderWidth: 1,
+    borderColor: '#ababab',
   },
 })

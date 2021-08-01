@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { TextInput } from 'react-native'
-import { Colors, DateTimePicker, Switch, Text, TouchableOpacity, View } from 'react-native-ui-lib'
+import { Chip, Colors, DateTimePicker, Switch, Text, TouchableOpacity, View } from 'react-native-ui-lib'
 import { AddTodoFormType } from './form.model'
 
 function FormItem(props: { label: string; children: React.ReactNode }) {
@@ -76,6 +76,12 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void }
         return (
           <>
             <TextInput autoFocus onSubmitEditing={submitForm} placeholder="添加待办，输入 Enter 确定" />
+            {!showMore && (
+              <View row marginT-10>
+                <Chip label="优先级" />
+                <Chip label="收集箱" marginL-8 />
+              </View>
+            )}
             {!showMore && (
               <TouchableOpacity marginT-20 onPress={() => setShowMore(true)} row centerH centerV>
                 <Text marginR-10 dark40>

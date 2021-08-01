@@ -1,4 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons'
+import * as Haptics from 'expo-haptics'
+import { over } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { ToastAndroid, TouchableHighlight, TouchableOpacity } from 'react-native'
@@ -21,15 +23,20 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
     ToastAndroid.show('标记为紧急任务', 300)
   }
 
+  const toggleStatus = () => {
+    if (!todo.isCompleted) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    todo.toggleStatus()
+  }
+
   return (
     <TouchableHighlight
-      onLongPress={hasActive ? undefined : toggleActivate}
+      onLongPress={hasActive ? undefined : over([Haptics.selectionAsync, toggleActivate])}
       delayLongPress={200}
-      onPressIn={hasActive ? toggleActivate : undefined}
+      onPress={hasActive ? toggleActivate : undefined}
     >
       <View paddingH-20 paddingV-10 row centerV bg-white width={'100%'}>
         {!hasActive ? (
-          <TouchableOpacity onPressIn={todo.toggleStatus}>
+          <TouchableOpacity onPressIn={toggleStatus}>
             <MaterialIcons
               name={!todo.isCompleted ? 'check-box-outline-blank' : 'check-box'}
               size={24}
@@ -55,7 +62,7 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
             {todo.title}
           </Text>
           {todo.description && (
-            <Text dark60 dark70={todo.isCompleted} text80 numberOfLines={1}>
+            <Text dark60 dark70={todo.isCompleted} dark80={hasActive && !isActive} text80 numberOfLines={1}>
               {todo.description}
             </Text>
           )}

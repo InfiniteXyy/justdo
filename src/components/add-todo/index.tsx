@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback } from 'react'
-import { KeyboardAvoidingView } from 'react-native'
-import { Colors, KeyboardAwareScrollView, Modal, Text, View } from 'react-native-ui-lib'
+import { KeyboardAvoidingView, ScrollView } from 'react-native'
+import { Colors, Modal, Text, View } from 'react-native-ui-lib'
 import { AddTodoForm } from './form'
 
 export const AddTodo = observer(({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
@@ -25,7 +25,7 @@ export const AddTodo = observer(({ visible, onClose }: { visible: boolean; onClo
         }}
         behavior="padding"
       >
-        <KeyboardAwareScrollView>
+        <ScrollView>
           <View marginH-16 row centerV spread marginT-30>
             <Text text60>添加一个新的待办</Text>
             <Ionicons name="close-circle" size={30} color={Colors.dark40} onPress={onClose} />
@@ -33,7 +33,7 @@ export const AddTodo = observer(({ visible, onClose }: { visible: boolean; onClo
           <View margin-20>
             <AddTodoForm onSubmit={handleAdd} />
           </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </KeyboardAvoidingView>
     </Modal>
   )
