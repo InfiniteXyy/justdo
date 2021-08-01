@@ -1,4 +1,4 @@
-import { MaterialIcons } from '@expo/vector-icons'
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import * as Haptics from 'expo-haptics'
 import { over } from 'lodash'
 import { observer } from 'mobx-react-lite'
@@ -24,7 +24,11 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
   }
 
   const toggleStatus = () => {
-    if (!todo.isCompleted) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    if (todo.isCompleted) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    } else {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    }
     todo.toggleStatus()
   }
 
@@ -37,10 +41,10 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
       <View paddingH-20 paddingV-10 row centerV bg-white width={'100%'}>
         {!hasActive ? (
           <TouchableOpacity onPressIn={toggleStatus}>
-            <MaterialIcons
-              name={!todo.isCompleted ? 'check-box-outline-blank' : 'check-box'}
+            <Ionicons
+              name={!todo.isCompleted ? 'radio-button-off' : 'checkmark-circle-sharp'}
               size={24}
-              color={Colors.grey40}
+              color={Colors.grey30}
             />
           </TouchableOpacity>
         ) : (

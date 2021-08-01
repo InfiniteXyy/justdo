@@ -1,3 +1,5 @@
+import { Platform } from 'react-native'
+
 export const todoFilters: Record<string, { title: string; icon: string }> = {
   inbox: { title: '收集箱', icon: 'server' },
   'filter/today': { title: '今日待办', icon: 'sunny' },
@@ -7,3 +9,5 @@ export const todoFilters: Record<string, { title: string; icon: string }> = {
   'filter/maybe': { title: '将来/也许', icon: 'git-branch' },
   'filter/wait': { title: '等待', icon: 'hand-right' },
 }
+
+export const isAndroid = Platform.OS === 'android'

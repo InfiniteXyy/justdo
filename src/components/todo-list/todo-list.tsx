@@ -50,8 +50,8 @@ export const TodoList = gestureHandlerRootHOC(
         setHeader({
           leftIcon: (
             <TouchableOpacity onPress={() => setActiveTodoId([])}>
-              <View paddingL-20 paddingR-10 marginR-10 style={{ borderRightColor: Colors.dark80, borderRightWidth: 1 }}>
-                <Ionicons name="md-checkmark" size={24} style={{ marginRight: 10 }} />
+              <View paddingL-20 paddingR-10 marginR-10>
+                <Ionicons name="close" size={24} style={{ marginRight: 10 }} color={Colors.dark20} />
               </View>
             </TouchableOpacity>
           ),
@@ -59,7 +59,7 @@ export const TodoList = gestureHandlerRootHOC(
           right: (
             <View flex centerV row paddingH-16>
               <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Ionicons name="archive" size={20} style={{ marginRight: 10 }} />
+                <Ionicons name="archive" size={20} style={{ marginRight: 10 }} color={Colors.dark20} />
               </TouchableOpacity>
             </View>
           ),
