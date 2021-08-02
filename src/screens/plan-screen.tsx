@@ -1,32 +1,46 @@
+import { Ionicons } from '@expo/vector-icons'
 import React, { useMemo, useState } from 'react'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
-import { Card, Colors, PageControl, TabController, View } from 'react-native-ui-lib'
+import { Card, Colors, PageControl, TabController, TouchableOpacity, View } from 'react-native-ui-lib'
 
 function TabView() {
   return (
-    <Card
-      row
-      margin-20
-      height={160}
-      style={{ marginBottom: 15 }}
-      onPress={() => {}}
-      useNative
-      backgroundColor={Colors.white}
-      activeOpacity={1}
-    >
-      <Card.Section
-        content={[
-          { text: 'You’re Invited!', text70: true, grey10: true },
-          {
-            text: '222 Join Old The Town Barbershop Official Store. Download the Wix app to...',
-            text80: true,
-            grey10: true,
-          },
-          { text: 'wix.to/A465c', text90: true, grey50: true },
-        ]}
-        style={{ padding: 20, flex: 1 }}
-      />
-    </Card>
+    <View>
+      <Card
+        margin-20
+        height={500}
+        style={{ marginBottom: 15 }}
+        onPress={() => {}}
+        useNative
+        backgroundColor={Colors.white}
+        activeOpacity={1}
+      >
+        <Card.Section
+          content={[
+            { text: '# 1', text70: true, grey10: true },
+            {
+              text: '完成计划列表',
+              text60: true,
+              ['marginV-10']: true,
+              grey10: true,
+            },
+            { text: '增加一下', text70: true, grey30: true },
+          ]}
+          style={{ padding: 20, flex: 1 }}
+        />
+      </Card>
+      <View row margin-10>
+        <TouchableOpacity marginH-10 br30 style={{ height: 50 }} center flexG>
+          <Ionicons name="checkmark" size={24} color={Colors.grey20} />
+        </TouchableOpacity>
+        <TouchableOpacity marginH-10 br30  style={{ height: 50 }} center flexG>
+          <Ionicons name="swap-vertical-sharp" size={24} color={Colors.grey20} />
+        </TouchableOpacity>
+        <TouchableOpacity marginH-10 br30 style={{ height: 50 }} center flexG>
+          <Ionicons name="trash" size={24} color={Colors.grey20} />
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
 function PlanScreen() {
@@ -41,7 +55,7 @@ function PlanScreen() {
   )
   return (
     <TabController asCarousel={true} selectedIndex={selectedIndex} onChangeIndex={onChangeIndex} items={items}>
-      <TabController.TabBar items={items} />
+      <TabController.TabBar items={[{}]} />
       <TabController.PageCarousel>
         <TabController.TabPage index={0} key="A">
           <TabView />
@@ -53,7 +67,7 @@ function PlanScreen() {
           <TabView />
         </TabController.TabPage>
       </TabController.PageCarousel>
-      <View marginB-20>
+      <View marginB-40>
         <PageControl currentPage={selectedIndex} numOfPages={3} inactiveColor={Colors.grey50} color={Colors.grey10} />
       </View>
     </TabController>

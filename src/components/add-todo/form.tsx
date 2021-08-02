@@ -1,19 +1,19 @@
 import { Ionicons } from '@expo/vector-icons'
 import { Formik } from 'formik'
-import React, { useState } from 'react'
-import { TextInput } from 'react-native'
-import { Chip, Colors, DateTimePicker, Switch, Text, TouchableOpacity, View } from 'react-native-ui-lib'
+import React from 'react'
+import { TouchableHighlight } from 'react-native'
+import { Colors, DateTimePicker, Switch, Text, TextArea, TextField, View } from 'react-native-ui-lib'
 import { AddTodoFormType } from './form.model'
 
 function FormItem(props: { label: string; children: React.ReactNode }) {
   const { label, children } = props
   return (
-    <View row spread height={40} centerV>
-      <Text text80M dark10>
-        {label}
-      </Text>
-      {children}
-    </View>
+    <TouchableHighlight onPress={() => {}} style={{ marginHorizontal: -20 }}>
+      <View row spread height={40} centerV bg-white paddingH-20>
+        <Text dark10>{label}</Text>
+        {children}
+      </View>
+    </TouchableHighlight>
   )
 }
 
@@ -21,7 +21,7 @@ function FormItemGroup(props: { label: string; children: React.ReactNode }) {
   const { label, children } = props
   return (
     <View marginT-20>
-      <Text text90 dark20>
+      <Text tex80 dark20 marginB-10 style={{ fontWeight: '700' }}>
         {label}
       </Text>
       {children}
@@ -30,18 +30,33 @@ function FormItemGroup(props: { label: string; children: React.ReactNode }) {
 }
 
 export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void }) {
-  const [showMore, setShowMore] = useState(false)
   return (
     <Formik<AddTodoFormType> initialValues={{ description: '', startAt: '', title: '' }} onSubmit={props.onSubmit}>
       {({ submitForm }) => {
-        const moreSettings = (
+        return (
           <>
+            <TextField
+              autoFocus
+              onSubmitEditing={submitForm}
+              placeholder="添加待办，输入 Enter 确定"
+              underlineColor="transparent"
+              containerStyle={{ height: 40 }}
+            />
+            <View
+              style={{
+                height: 100,
+                borderWidth: 1,
+                padding: 10,
+                borderRadius: 8,
+                borderColor: Colors.dark80,
+              }}
+            >
+              <TextArea placeholder="请输入描述" />
+            </View>
+
             <FormItemGroup label="更多设置">
-              <FormItem label="描述">
-                <TextInput placeholder="请输入描述" multiline />
-              </FormItem>
               <FormItem label="优先级">
-                <Text>无</Text>
+                <Ionicons name="ios-flag" size={22} color={'orange'} />
               </FormItem>
               <FormItem label="全天任务">
                 <Switch />
@@ -52,9 +67,6 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void }
             </FormItemGroup>
 
             <FormItemGroup label="分组设置">
-              <FormItem label="情景">
-                <Text>无</Text>
-              </FormItem>
               <FormItem label="项目">
                 <Text>无</Text>
               </FormItem>
@@ -63,7 +75,7 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void }
               </FormItem>
             </FormItemGroup>
 
-            <FormItemGroup label="高级设置">
+            <FormItemGroup label="附加设置">
               <FormItem label="重复">
                 <Text>无</Text>
               </FormItem>
@@ -71,26 +83,6 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void }
                 <Text>无</Text>
               </FormItem>
             </FormItemGroup>
-          </>
-        )
-        return (
-          <>
-            <TextInput autoFocus onSubmitEditing={submitForm} placeholder="添加待办，输入 Enter 确定" />
-            {!showMore && (
-              <View row marginT-10>
-                <Chip label="优先级" />
-                <Chip label="收集箱" marginL-8 />
-              </View>
-            )}
-            {!showMore && (
-              <TouchableOpacity marginT-20 onPress={() => setShowMore(true)} row centerH centerV>
-                <Text marginR-10 dark40>
-                  显示更多
-                </Text>
-                <Ionicons name="chevron-down" size={16} color={Colors.dark40} />
-              </TouchableOpacity>
-            )}
-            {showMore && moreSettings}
           </>
         )
       }}

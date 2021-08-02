@@ -1,10 +1,10 @@
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useMemo, useState } from 'react'
-import { RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
+import { RefreshControl, ScrollView } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
-import { Colors, Text, View } from 'react-native-ui-lib'
+import { Colors, Text, TouchableOpacity, View } from 'react-native-ui-lib'
 import { todoFilters } from '../../constant'
 import { todoList } from '../../data'
 import { useActiveTodo } from '../../hooks/use-active-todo'
@@ -38,10 +38,10 @@ export const TodoList = gestureHandlerRootHOC(
           right: (
             <View flex centerV row paddingH-16>
               <TouchableOpacity onPress={() => setAddTodoVisible(true)}>
-                <Ionicons name="add" size={32} style={{ marginRight: 10 }} />
+                <Ionicons key="add" name="add" size={32} style={{ marginRight: 10 }} color={Colors.dark20} />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => setMenuVisible((i) => !i)}>
-                <Ionicons name="ellipsis-horizontal" size={24} />
+                <Ionicons key="more" name="ellipsis-horizontal" size={24} color={Colors.dark20} />
               </TouchableOpacity>
             </View>
           ),
@@ -55,11 +55,14 @@ export const TodoList = gestureHandlerRootHOC(
               </View>
             </TouchableOpacity>
           ),
-          left: <Text text70BO>已选中：{activeTodoList.length}</Text>,
+          left: <></>,
           right: (
             <View flex centerV row paddingH-16>
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Ionicons name="archive" size={20} style={{ marginRight: 10 }} color={Colors.dark20} />
+              <TouchableOpacity marginR-10>
+                <MaterialIcons key="instant" name={'flash-on'} size={24} color={Colors.yellow30} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible((i) => !i)}>
+                <Ionicons key="move" name="file-tray-outline" size={24} color={Colors.dark20} />
               </TouchableOpacity>
             </View>
           ),
