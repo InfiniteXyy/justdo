@@ -3,7 +3,8 @@ import * as Haptics from 'expo-haptics'
 import { over } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { TouchableHighlight, TouchableOpacity } from 'react-native'
+import { LayoutAnimation, TouchableHighlight, TouchableOpacity } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { Colors, Drawer, Text, View } from 'react-native-ui-lib'
 import { ITodo } from '../../data'
 import { useActiveTodo } from '../../hooks/use-active-todo'
@@ -19,20 +20,32 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
   }
 
   const toggleStatus = () => {
+    LayoutAnimation.spring()
+    todo.toggleStatus()
     if (todo.isCompleted) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+      Toast.show({
+        type: 'success',
+        text1: '完成：' + todo.title,
+        text2: '点击撤销',
+        onPress: () => {
+          LayoutAnimation.spring()
+          todo.toggleStatus()
+          Toast.hide()
+        },
+        topOffset: 100,
+      })
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     }
-    todo.toggleStatus()
   }
-
 
   return (
     <Drawer
-      leftItem={{ text: '完成', background: 'green' }}
+      onFullSwipeLeft={toggleStatus}
+      leftItem={{ text: '完成', background: 'green', onPress: toggleStatus }}
       rightItems={[
-        { text: '删除', background: 'red' },
+        { text: '删除', background: 'red', onPress: todo.toggleArchive },
         { text: '安排到', background: 'orange' },
       ]}
     >

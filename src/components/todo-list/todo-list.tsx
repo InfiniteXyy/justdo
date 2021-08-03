@@ -23,7 +23,7 @@ export const TodoList = gestureHandlerRootHOC(
         return todoList.archivedTodos
       }
       if (currentKey.startsWith('filter')) {
-        return todoList.todos.filter((i) => i.plan === currentKey)
+        return todoList.todos.filter((i) => i.plan === currentKey && !i.isArchived && !i.isCompleted)
       }
       return todoList.todos
     })()

@@ -78,7 +78,7 @@ export function TodoListHeader(props: { currentTodos: ITodo[] }) {
       <ModalMenu
         visible={modalVisible}
         setVisible={setModalVisible}
-        title="移动到"
+        title="安排到"
         menu={Object.entries(todoFilters).map(([key, value]) => ({
           iconName: value.icon,
           title: value.title,
