@@ -43,6 +43,8 @@ export function DropdownMenu(props: DropdownMenuProps) {
 
 const styles = StyleSheet.create({
   dropdown: {
+    borderRadius: 8,
+    overflow: 'hidden',
     shadowOpacity: 0.2,
     shadowColor: 'rgba(0,0,0,0.3)',
     shadowRadius: 3,

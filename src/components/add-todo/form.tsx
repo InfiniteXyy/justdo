@@ -1,89 +1,74 @@
 import { Ionicons } from '@expo/vector-icons'
 import { Formik } from 'formik'
 import React from 'react'
-import { TouchableHighlight } from 'react-native'
-import { Colors, DateTimePicker, Switch, Text, TextArea, TextField, View } from 'react-native-ui-lib'
+import { KeyboardAvoidingView, ScrollView, TextInput } from 'react-native'
+import { Colors, Switch, Text, View } from 'react-native-ui-lib'
+import { FormItem, FormItemGroup } from './form-items/common'
+import { StartTimeField } from './form-items/start-time'
 import { AddTodoFormType } from './form.model'
 
-function FormItem(props: { label: string; children: React.ReactNode }) {
-  const { label, children } = props
+export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; onClose: () => void }) {
   return (
-    <TouchableHighlight onPress={() => {}} style={{ marginHorizontal: -20 }}>
-      <View row spread height={40} centerV bg-white paddingH-20>
-        <Text dark10>{label}</Text>
-        {children}
-      </View>
-    </TouchableHighlight>
-  )
-}
-
-function FormItemGroup(props: { label: string; children: React.ReactNode }) {
-  const { label, children } = props
-  return (
-    <View marginT-20>
-      <Text tex80 dark20 marginB-10 style={{ fontWeight: '700' }}>
-        {label}
-      </Text>
-      {children}
-    </View>
-  )
-}
-
-export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void }) {
-  return (
-    <Formik<AddTodoFormType> initialValues={{ description: '', startAt: '', title: '' }} onSubmit={props.onSubmit}>
-      {({ submitForm }) => {
+    <Formik<AddTodoFormType>
+      initialValues={{ description: null, startAt: null, title: '', plan: 'filter/inbox' }}
+      onSubmit={props.onSubmit}
+    >
+      {({ submitForm, values, handleChange, handleBlur }) => {
         return (
-          <>
-            <TextField
-              autoFocus
-              onSubmitEditing={submitForm}
-              placeholder="添加待办，输入 Enter 确定"
-              underlineColor="transparent"
-              containerStyle={{ height: 40 }}
-            />
-            <View
-              style={{
-                height: 100,
-                borderWidth: 1,
-                padding: 10,
-                borderRadius: 8,
-                borderColor: Colors.dark80,
-              }}
-            >
-              <TextArea placeholder="请输入描述" />
+          <KeyboardAvoidingView behavior="height" style={{ height: '100%' }}>
+            <View marginH-16 row centerV spread marginT-20 marginB-10>
+              <View row centerV>
+                <Ionicons name="close" size={30} color={Colors.dark40} onPress={props.onClose} />
+                <Text text60 dark10 marginL-10>
+                  添加一个新的待办
+                </Text>
+              </View>
+              <Ionicons name="ios-send-sharp" size={24} color={Colors.dark30} onPress={submitForm} />
             </View>
 
-            <FormItemGroup label="更多设置">
-              <FormItem label="优先级">
-                <Ionicons name="ios-flag" size={22} color={'orange'} />
-              </FormItem>
-              <FormItem label="全天任务">
-                <Switch />
-              </FormItem>
-              <FormItem label="开始时间">
-                <DateTimePicker />
-              </FormItem>
-            </FormItemGroup>
-
-            <FormItemGroup label="分组设置">
-              <FormItem label="项目">
-                <Text>无</Text>
-              </FormItem>
-              <FormItem label="标签">
-                <Text>无</Text>
-              </FormItem>
-            </FormItemGroup>
-
-            <FormItemGroup label="附加设置">
-              <FormItem label="重复">
-                <Text>无</Text>
-              </FormItem>
-              <FormItem label="提醒">
-                <Text>无</Text>
-              </FormItem>
-            </FormItemGroup>
-          </>
+            <ScrollView>
+              <View margin-20>
+                <TextInput
+                  autoFocus
+                  placeholder="输入一个简短的标题"
+                  value={values.title}
+                  onChangeText={handleChange('title')}
+                  onBlur={handleBlur('title')}
+                  style={{ fontSize: 18, height: 40 }}
+                />
+                <FormItemGroup label="详细描述">
+                  <View style={{ height: 40 }}>
+                    <TextInput placeholder="请输入描述" multiline style={{ fontSize: 16 }} />
+                  </View>
+                </FormItemGroup>
+                <FormItemGroup label="更多设置">
+                  <FormItem label="优先级">
+                    <Text>无</Text>
+                  </FormItem>
+                  <FormItem label="全天任务">
+                    <Switch />
+                  </FormItem>
+                  <StartTimeField />
+                </FormItemGroup>
+                <FormItemGroup label="分组设置">
+                  <FormItem label="项目">
+                    <Text>无</Text>
+                  </FormItem>
+                  <FormItem label="标签">
+                    <Text>无</Text>
+                  </FormItem>
+                </FormItemGroup>
+                <FormItemGroup label="附加设置">
+                  <FormItem label="重复">
+                    <Text>无</Text>
+                  </FormItem>
+                  <FormItem label="提醒">
+                    <Text>无</Text>
+                  </FormItem>
+                </FormItemGroup>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         )
       }}
     </Formik>

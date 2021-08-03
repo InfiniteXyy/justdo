@@ -1,23 +1,25 @@
-import dayjs from 'dayjs'
 import { Instance, types } from 'mobx-state-tree'
-import { ProjectNode } from './project'
+import { FilterType } from '../constant'
 import { ITodo, TodoNode } from './todo'
 
 export const TodoListNode = types
   .model('TodoList', {
     todos: types.array(TodoNode),
-    projects: types.array(ProjectNode),
   })
   .actions((state) => ({
-    addTodo(title: string, projectId?: string) {
-      state.todos.push(TodoNode.create({ title, projectId }))
+    addTodo(props: { title: string; plan: FilterType; description: string | null; startAt: string | null }) {
+      state.todos.push(TodoNode.create(props))
     },
     removeTodo(todo: ITodo) {
       state.todos.remove(todo)
     },
-    addProject(title: string) {
-      const newProject = ProjectNode.create({ id: dayjs().toISOString() + title, title })
-      state.projects.push(newProject)
+  }))
+  .views((self) => ({
+    get finishedTodos() {
+      return self.todos.filter((todo) => todo.isCompleted)
+    },
+    get archivedTodos() {
+      return self.todos.filter((todo) => todo.isArchived)
     },
   }))
 

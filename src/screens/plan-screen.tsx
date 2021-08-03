@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useMemo, useState } from 'react'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
-import { Card, Colors, PageControl, TabController, TouchableOpacity, View } from 'react-native-ui-lib'
+import { Card, Colors, PageControl, TabController, Text, TouchableOpacity, View } from 'react-native-ui-lib'
 
 function TabView() {
   return (
@@ -31,13 +31,16 @@ function TabView() {
       </Card>
       <View row margin-10>
         <TouchableOpacity marginH-10 br30 style={{ height: 50 }} center flexG>
-          <Ionicons name="checkmark" size={24} color={Colors.grey20} />
+          <Ionicons name="sunny" size={24} color={Colors.grey20} />
+          <Text>今日</Text>
         </TouchableOpacity>
-        <TouchableOpacity marginH-10 br30  style={{ height: 50 }} center flexG>
+        <TouchableOpacity marginH-10 br30 style={{ height: 50 }} center flexG>
           <Ionicons name="swap-vertical-sharp" size={24} color={Colors.grey20} />
+          <Text>移动</Text>
         </TouchableOpacity>
         <TouchableOpacity marginH-10 br30 style={{ height: 50 }} center flexG>
           <Ionicons name="trash" size={24} color={Colors.grey20} />
+          <Text>删除</Text>
         </TouchableOpacity>
       </View>
     </View>

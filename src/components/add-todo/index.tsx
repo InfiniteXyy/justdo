@@ -1,36 +1,38 @@
 import { Ionicons } from '@expo/vector-icons'
 import { observer } from 'mobx-react-lite'
 import React, { useCallback } from 'react'
-import { KeyboardAvoidingView, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors, Modal, Text, View } from 'react-native-ui-lib'
+import Toast from 'react-native-toast-message'
+import { Button, Modal } from 'react-native-ui-lib'
+import { todoList } from '../../data'
 import { AddTodoForm } from './form'
+import { AddTodoFormType } from './form.model'
 
-export const AddTodo = observer(({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
-  const handleAdd = useCallback(() => {
-    onClose()
-  }, [])
+export const AddTodo = observer(
+  ({ visible, onClose, onOpen }: { visible: boolean; onClose: () => void; onOpen: () => void }) => {
+    const handleAdd = useCallback((form: AddTodoFormType) => {
+      todoList.addTodo(form)
+      Toast.show({ type: 'success', text1: '添加了一个新的任务到收集箱', text2: form.title, topOffset: 100 })
+      onClose()
+    }, [])
 
-  return (
-    <Modal animationType="slide" onBackgroundPress={onClose} visible={visible} onRequestClose={onClose}>
-      <SafeAreaView>
-        <KeyboardAvoidingView behavior="height" style={{ height: '100%' }}>
-          <View marginH-16 row centerV spread marginT-20 marginB-10>
-            <View row centerV>
-              <Ionicons name="close" size={30} color={Colors.dark40} onPress={onClose} />
-              <Text text60 dark10 marginL-10>
-                添加一个新的待办
-              </Text>
-            </View>
-            <Ionicons name="ios-send-sharp" size={24} color={Colors.dark30} onPress={onClose} />
-          </View>
-          <ScrollView>
-            <View margin-20>
-              <AddTodoForm onSubmit={handleAdd} />
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </Modal>
-  )
-})
+    return (
+      <>
+        <Modal animationType="slide" onBackgroundPress={onClose} visible={visible} onRequestClose={onClose}>
+          <SafeAreaView>
+            <AddTodoForm onClose={onClose} onSubmit={handleAdd} />
+          </SafeAreaView>
+        </Modal>
+        <Button
+          enableShadow
+          round
+          absR
+          style={{ position: 'absolute', right: 20, bottom: 40, height: 60, width: 60 }}
+          onPress={onOpen}
+        >
+          <Ionicons name="add" size={32} color={'white'} />
+        </Button>
+      </>
+    )
+  }
+)

@@ -27,6 +27,7 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
     todo.toggleStatus()
   }
 
+
   return (
     <Drawer
       leftItem={{ text: '完成', background: 'green' }}
@@ -35,7 +36,11 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
         { text: '安排到', background: 'orange' },
       ]}
     >
-      <TouchableHighlight onLongPress={over([Haptics.selectionAsync, toggleActivate])} delayLongPress={200}>
+      <TouchableHighlight
+        onLongPress={over([Haptics.selectionAsync, toggleActivate])}
+        onPress={() => setActiveTodoId([])}
+        delayLongPress={200}
+      >
         <View paddingH-20 paddingV-10 row centerV bg-white width={'100%'}>
           <TouchableOpacity onPressIn={toggleStatus}>
             <Ionicons
@@ -50,9 +55,6 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
               text70
               dark10={hasActive ? isActive : !todo.isCompleted}
               dark70={hasActive ? hasActive && !isActive : todo.isCompleted}
-              style={{
-                textDecorationLine: todo.isCompleted ? 'line-through' : undefined,
-              }}
             >
               {todo.title}
             </Text>

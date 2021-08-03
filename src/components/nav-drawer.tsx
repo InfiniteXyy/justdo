@@ -2,11 +2,12 @@ import { Ionicons } from '@expo/vector-icons'
 import { DrawerItem } from '@react-navigation/drawer'
 import { DrawerActions, useNavigation } from '@react-navigation/native'
 import dayjs from 'dayjs'
+import { get } from 'lodash'
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, Text, TouchableOpacity, View } from 'react-native-ui-lib'
-import { todoFilters } from '../constant'
+import { AllFilterType, todoFilters } from '../constant'
 import { useTodoListRoute } from '../hooks/use-todolist-route'
 
 export function DrawerNavigator() {
@@ -21,29 +22,24 @@ export function DrawerNavigator() {
         </Text>
       </View>
       <ScrollView>
-        {Object.entries(todoFilters).map(([key, value]) => (
-          <DrawerItem
-            key={key}
-            label={value.title}
-            focused={currentKey === key}
-            onPress={() => {
-              setCurrentKey(key)
-              navigation.dispatch(DrawerActions.closeDrawer())
-            }}
-            icon={({ color, size }) => <Ionicons name={value.icon as any} size={size} color={color} />}
-          />
-        ))}
-        <View height={1} backgroundColor="#f1f1f1" marginV-8 />
-        <DrawerItem
-          label="已完成"
-          onPress={() => {}}
-          icon={({ color, size }) => <Ionicons name="checkmark" size={size} color={color} />}
-        />
-        <DrawerItem
-          label="回收站"
-          onPress={() => {}}
-          icon={({ color, size }) => <Ionicons name="trash" size={size} color={color} />}
-        />
+        {Object.entries(todoFilters).map((entry) => {
+          const key = entry[0] as AllFilterType
+          const value = entry[1]
+          return (
+            <React.Fragment key={key}>
+              {get(value, 'divider') && <View height={1} backgroundColor="#f1f1f1" marginV-8 />}
+              <DrawerItem
+                label={value.title}
+                focused={currentKey === key}
+                onPress={() => {
+                  setCurrentKey(key)
+                  navigation.dispatch(DrawerActions.closeDrawer())
+                }}
+                icon={({ color, size }) => <Ionicons name={value.icon as any} size={size} color={color} />}
+              />
+            </React.Fragment>
+          )
+        })}
       </ScrollView>
       <View row spread centerV>
         <TouchableOpacity row centerV padding-20>
