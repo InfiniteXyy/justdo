@@ -30,9 +30,7 @@ export function StartTimeField() {
         menu={Object.entries(todoFilters).map(([key, value]) => ({
           iconName: value.icon,
           title: value.title,
-          onPress: () => {
-            setFieldValue('plan', key)
-          },
+          onPress: () => setFieldValue('plan', key),
           hidden: !key.startsWith('filter'),
         }))}
       />

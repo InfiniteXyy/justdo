@@ -12,7 +12,7 @@ export const AddTodo = observer(
   ({ visible, onClose, onOpen }: { visible: boolean; onClose: () => void; onOpen: () => void }) => {
     const handleAdd = useCallback((form: AddTodoFormType) => {
       todoList.addTodo(form)
-      Toast.show({ type: 'success', text1: '添加了一个新的任务到收集箱', text2: form.title, topOffset: 100 })
+      Toast.show({ type: 'success', text1: '添加了一个新的任务到收集箱', text2: form.title })
       onClose()
     }, [])
 

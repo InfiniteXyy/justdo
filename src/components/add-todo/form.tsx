@@ -36,11 +36,9 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                   onBlur={handleBlur('title')}
                   style={{ fontSize: 18, height: 40 }}
                 />
-                <FormItemGroup label="详细描述">
-                  <View style={{ height: 40 }}>
-                    <TextInput placeholder="请输入描述" multiline style={{ fontSize: 16 }} />
-                  </View>
-                </FormItemGroup>
+                <View style={{ height: 40 }}>
+                  <TextInput placeholder="请输入描述" multiline style={{ fontSize: 16 }} />
+                </View>
                 <FormItemGroup label="更多设置">
                   <FormItem label="优先级">
                     <Text>无</Text>
@@ -49,20 +47,20 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                     <Switch />
                   </FormItem>
                   <StartTimeField />
+
+                  <FormItem label="重复">
+                    <Text>无</Text>
+                  </FormItem>
+                  <FormItem label="提醒">
+                    <Text>无</Text>
+                  </FormItem>
                 </FormItemGroup>
+
                 <FormItemGroup label="分组设置">
                   <FormItem label="项目">
                     <Text>无</Text>
                   </FormItem>
                   <FormItem label="标签">
-                    <Text>无</Text>
-                  </FormItem>
-                </FormItemGroup>
-                <FormItemGroup label="附加设置">
-                  <FormItem label="重复">
-                    <Text>无</Text>
-                  </FormItem>
-                  <FormItem label="提醒">
                     <Text>无</Text>
                   </FormItem>
                 </FormItemGroup>

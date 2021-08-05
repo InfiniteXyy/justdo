@@ -1,25 +1,29 @@
-import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import * as Haptics from 'expo-haptics'
 import { over } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { LayoutAnimation, TouchableHighlight, TouchableOpacity } from 'react-native'
+import { LayoutAnimation, TouchableHighlight } from 'react-native'
 import Toast from 'react-native-toast-message'
-import { Colors, Drawer, Text, View } from 'react-native-ui-lib'
+import { Chip, Colors, Drawer, Text, View } from 'react-native-ui-lib'
+import useEventCallback from 'use-event-callback'
 import { ITodo } from '../../data'
 import { useActiveTodo } from '../../hooks/use-active-todo'
+import { ArrangeTodo } from '../arrange-todo'
+import { Checkbox } from '../ui'
 
 export const TodoItem = observer((props: { todo: ITodo }) => {
   const { todo } = props
+  const navigation = useNavigation()
   const { setActiveTodoId, activeTodoId } = useActiveTodo()
   const isActive = activeTodoId.indexOf(todo.id) !== -1
   const hasActive = activeTodoId.length > 0
 
-  const toggleActivate = () => {
+  const toggleActivate = useEventCallback(() => {
     setActiveTodoId([todo.id])
-  }
+  })
 
-  const toggleStatus = () => {
+  const toggleStatus = useEventCallback(() => {
     LayoutAnimation.spring()
     todo.toggleStatus()
     if (todo.isCompleted) {
@@ -33,36 +37,27 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
           todo.toggleStatus()
           Toast.hide()
         },
-        topOffset: 100,
       })
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     }
-  }
+  })
 
   return (
     <Drawer
-      onFullSwipeLeft={toggleStatus}
-      leftItem={{ text: '完成', background: 'green', onPress: toggleStatus }}
       rightItems={[
         { text: '删除', background: 'red', onPress: todo.toggleArchive },
-        { text: '安排到', background: 'orange' },
+        { text: '安排到', background: 'orange', onPress: () => ArrangeTodo.confirm(todo) },
       ]}
     >
       <TouchableHighlight
         onLongPress={over([Haptics.selectionAsync, toggleActivate])}
-        onPress={() => setActiveTodoId([])}
+        onPress={() => navigation.navigate('TodoDetail', { todo })}
         delayLongPress={200}
       >
         <View paddingH-20 paddingV-10 row centerV bg-white width={'100%'}>
-          <TouchableOpacity onPressIn={toggleStatus}>
-            <Ionicons
-              name={!todo.isCompleted ? 'radio-button-off' : 'checkmark-circle-sharp'}
-              size={24}
-              color={Colors.grey30}
-            />
-          </TouchableOpacity>
-          <View marginH-10>
+          <Checkbox checked={todo.isCompleted} onChange={toggleStatus} />
+          <View marginH-10 flexG>
             <Text
               numberOfLines={1}
               text70
@@ -77,6 +72,13 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
               </Text>
             )}
           </View>
+          {todo.repeatOption && (
+            <Chip
+              label={'重复任务'}
+              labelStyle={{ color: Colors.white }}
+              containerStyle={{ borderColor: Colors.green20, backgroundColor: Colors.green20 }}
+            />
+          )}
         </View>
       </TouchableHighlight>
     </Drawer>
