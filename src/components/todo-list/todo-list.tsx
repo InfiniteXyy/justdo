@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { RefreshControl, ScrollView } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
 import { View } from 'react-native-ui-lib'
+import { isIOS } from '../../constant'
 import { todoList } from '../../data'
 import { useTodoListRoute } from '../../hooks/use-todolist-route'
 import { AddTodo } from '../add-todo'
@@ -35,12 +36,14 @@ export const TodoList = gestureHandlerRootHOC(
         ) : (
           <ScrollView
             refreshControl={
-              <RefreshControl
-                size={2}
-                refreshing={false}
-                title="释放来添加新的待办"
-                onRefresh={() => setAddTodoVisible(true)}
-              />
+              isIOS ? (
+                <RefreshControl
+                  size={2}
+                  refreshing={false}
+                  title="释放来添加新的待办"
+                  onRefresh={() => setAddTodoVisible(true)}
+                />
+              ) : undefined
             }
           >
             {currentTodos.map((todo) => (

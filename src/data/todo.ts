@@ -24,8 +24,9 @@ export const SubTodoNode = types
     isCompleted: types.optional(types.boolean, false),
   })
   .actions((self) => ({
-    toggleStatus() {
-      self.isCompleted = !self.isCompleted
+    toggleStatus(isCompleted?: boolean) {
+      if (typeof isCompleted === 'boolean') self.isCompleted = isCompleted
+      else self.isCompleted = !self.isCompleted
     },
   }))
 
@@ -46,7 +47,14 @@ export const TodoNode = types
   .actions((todo) => ({
     toggleStar: () => (todo.isStarred = !todo.isStarred),
     toggleArchive: () => (todo.isArchived = !todo.isArchived),
-    toggleStatus: () => (todo.isCompleted = !todo.isCompleted),
+    toggleStatus: () => {
+      todo.isCompleted = !todo.isCompleted
+      if (todo.isCompleted) {
+        todo.subTodos.forEach((i) => {
+          i.toggleStatus(true)
+        })
+      }
+    },
     addSubTodo: (title: string) => todo.subTodos.push(SubTodoNode.create({ title, isCompleted: false })),
     movePlan: (plan: FilterType) => (todo.plan = plan),
     remove: () => (getRoot(todo) as any).removeTodo(todo),

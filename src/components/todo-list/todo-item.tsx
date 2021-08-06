@@ -5,12 +5,12 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { LayoutAnimation, TouchableHighlight } from 'react-native'
 import Toast from 'react-native-toast-message'
-import { Chip, Colors, Drawer, Text, View } from 'react-native-ui-lib'
+import { Chip, Colors, Text, View } from 'react-native-ui-lib'
 import useEventCallback from 'use-event-callback'
 import { ITodo } from '../../data'
 import { useActiveTodo } from '../../hooks/use-active-todo'
-import { ArrangeTodo } from '../arrange-todo'
 import { Checkbox } from '../ui'
+import { TodoItemOperations } from './todo-item.operations'
 
 export const TodoItem = observer((props: { todo: ITodo }) => {
   const { todo } = props
@@ -44,15 +44,10 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
   })
 
   return (
-    <Drawer
-      rightItems={[
-        { text: '删除', background: 'red', onPress: todo.toggleArchive },
-        { text: '安排到', background: 'orange', onPress: () => ArrangeTodo.confirm(todo) },
-      ]}
-    >
+    <TodoItemOperations todo={todo}>
       <TouchableHighlight
+        onPress={() => navigation.navigate('TodoDetail', { todoId: todo.id })}
         onLongPress={over([Haptics.selectionAsync, toggleActivate])}
-        onPress={() => navigation.navigate('TodoDetail', { todo })}
         delayLongPress={200}
       >
         <View paddingH-20 paddingV-10 row centerV bg-white width={'100%'}>
@@ -72,6 +67,13 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
               </Text>
             )}
           </View>
+          {todo.subTodos.length > 0 && (
+            <Chip
+              label={`${todo.subTodos.filter((i) => i.isCompleted).length}/${todo.subTodos.length}`}
+              labelStyle={{ color: Colors.white }}
+              containerStyle={{ borderColor: Colors.dark60, backgroundColor: Colors.dark60 }}
+            />
+          )}
           {todo.repeatOption && (
             <Chip
               label={'重复任务'}
@@ -81,6 +83,6 @@ export const TodoItem = observer((props: { todo: ITodo }) => {
           )}
         </View>
       </TouchableHighlight>
-    </Drawer>
+    </TodoItemOperations>
   )
 })

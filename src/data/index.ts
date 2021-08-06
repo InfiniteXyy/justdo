@@ -10,7 +10,7 @@ const mockTodos = [
     title: '机器学习上手',
     description: '根据时间和地点推荐下一个完成的任务，数据源怎么办？',
   }),
-  TodoNode.create({ title: '学习 Vue3', subTodos: [SubTodoNode.create({ title: '子任务在此' })] }),
+  TodoNode.create({ title: '有子任务', subTodos: [SubTodoNode.create({ title: '子任务在此' })] }),
   TodoNode.create({ title: '尝试一下 reanimated' }),
   TodoNode.create({ title: '刷一个 LeetCode' }),
   TodoNode.create({ title: '学习一下图表', description: '用图表来展示个人OKR？' }),
