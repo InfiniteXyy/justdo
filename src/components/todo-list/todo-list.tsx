@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
-import { RefreshControl, ScrollView } from 'react-native'
+import { Keyboard, RefreshControl, ScrollView } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
 import { View } from 'react-native-ui-lib'
 import { isIOS } from '../../constant'
@@ -9,7 +9,7 @@ import { useTodoListRoute } from '../../hooks/use-todolist-route'
 import { AddTodo } from '../add-todo'
 import { EmptyView } from './empty-view'
 import { TodoListHeader } from './header'
-import { TodoItem } from './todo-item'
+import { TodoGroup } from './todo-group'
 
 export const TodoList = gestureHandlerRootHOC(
   observer(() => {
@@ -31,6 +31,7 @@ export const TodoList = gestureHandlerRootHOC(
 
     return (
       <>
+        <TodoListHeader />
         {currentTodos.length === 0 ? (
           <EmptyView />
         ) : (
@@ -38,24 +39,24 @@ export const TodoList = gestureHandlerRootHOC(
             refreshControl={
               isIOS ? (
                 <RefreshControl
-                  size={2}
+                  tintColor="transparent"
                   refreshing={false}
-                  title="释放来添加新的待办"
+                  title="继续下拉添加新的待办"
                   onRefresh={() => setAddTodoVisible(true)}
                 />
               ) : undefined
             }
           >
-            {currentTodos.map((todo) => (
-              <TodoItem todo={todo} key={todo.id} />
-            ))}
+            <TodoGroup todos={currentTodos} label="全部" />
             <View height={100} />
           </ScrollView>
         )}
-        <TodoListHeader currentTodos={currentTodos} />
         <AddTodo
           visible={addTodoVisible}
-          onClose={() => setAddTodoVisible(false)}
+          onClose={() => {
+            setAddTodoVisible(false)
+            Keyboard.dismiss()
+          }}
           onOpen={() => setAddTodoVisible(true)}
         />
       </>

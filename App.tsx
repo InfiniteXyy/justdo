@@ -24,7 +24,7 @@ export default function App() {
       <View height="100%">
         <Navigation />
         <StatusBar />
-        <Toast ref={(ref) => Toast.setRef(ref)} position="bottom" />
+        <Toast ref={(ref) => Toast.setRef(ref)} topOffset={40} />
         <ArrangeTodoModal ref={ArrangeTodo} />
       </View>
     )

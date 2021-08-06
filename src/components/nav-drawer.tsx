@@ -43,8 +43,8 @@ export function DrawerNavigator() {
       </ScrollView>
       <View row spread centerV>
         <TouchableOpacity row centerV padding-20>
-          <Ionicons name="add" size={24} color={Colors.dark20} />
-          <Text>添加清单</Text>
+          <Ionicons name="add" size={18} color={Colors.dark30} />
+          <Text dark30>添加清单</Text>
         </TouchableOpacity>
         <TouchableOpacity padding-20>
           <Ionicons name="settings-outline" size={18} color={Colors.dark20} />

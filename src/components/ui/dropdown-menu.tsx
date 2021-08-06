@@ -17,25 +17,27 @@ export function DropdownMenu(props: DropdownMenuProps) {
       animationType="fade"
       transparent={true}
       visible={visible}
-      overlayBackgroundColor={'rgba(0,0,0,0.5)'}
+      overlayBackgroundColor={'rgba(0,0,0,0.1)'}
       onBackgroundPress={() => setVisible(false)}
       onDismiss={() => setVisible(false)}
     >
       <View style={[styles.dropdown, position, { top: isAndroid ? position.top : position.top + 40 }]}>
-        {menuItems.map((i) => (
-          <TouchableHighlight
-            key={i.label}
-            onPress={() => {
-              i.onPress()
-              setVisible(false)
-            }}
-          >
-            <View height={40} row centerV paddingH-20 bg-white>
-              {i.icon}
-              <Text>{i.label}</Text>
-            </View>
-          </TouchableHighlight>
-        ))}
+        <View style={{ borderRadius: 4, backgroundColor: 'white', overflow: 'hidden' }}>
+          {menuItems.map((i) => (
+            <TouchableHighlight
+              key={i.label}
+              onPress={() => {
+                i.onPress()
+                setVisible(false)
+              }}
+            >
+              <View height={40} row centerV paddingH-10 bg-white>
+                {i.icon}
+                <Text>{i.label}</Text>
+              </View>
+            </TouchableHighlight>
+          ))}
+        </View>
       </View>
     </DefaultModal>
   )
@@ -43,15 +45,16 @@ export function DropdownMenu(props: DropdownMenuProps) {
 
 const styles = StyleSheet.create({
   dropdown: {
-    borderRadius: 8,
-    overflow: 'hidden',
-    shadowOpacity: 0.2,
-    shadowColor: 'rgba(0,0,0,0.3)',
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 3,
-    backgroundColor: 'white',
+    shadowColor: 'rgba(0,0,0,0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+
     position: 'absolute',
-    width: 200,
+    width: 150,
   },
 })

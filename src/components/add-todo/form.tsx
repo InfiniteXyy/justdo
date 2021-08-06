@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons'
 import { Formik } from 'formik'
 import React from 'react'
-import { KeyboardAvoidingView, ScrollView, TextInput } from 'react-native'
-import { Colors, Switch, Text, View } from 'react-native-ui-lib'
+import { Keyboard, ScrollView, TextInput } from 'react-native'
+import { Chip, Colors, Text, View } from 'react-native-ui-lib'
 import { FormItem, FormItemGroup } from './form-items/common'
 import { StartTimeField } from './form-items/start-time'
 import { AddTodoFormType } from './form.model'
@@ -15,19 +15,33 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
     >
       {({ submitForm, values, handleChange, handleBlur }) => {
         return (
-          <KeyboardAvoidingView behavior="height" style={{ height: '100%' }}>
-            <View marginH-16 row centerV spread marginT-20 marginB-10>
+          <>
+            <View row centerV spread>
               <View row centerV>
-                <Ionicons name="close" size={30} color={Colors.dark40} onPress={props.onClose} />
-                <Text text60 dark10 marginL-10>
-                  添加一个新的待办
-                </Text>
+                <Ionicons
+                  name="close"
+                  size={24}
+                  style={{ padding: 16 }}
+                  color={Colors.dark40}
+                  onPress={props.onClose}
+                />
+                <View row centerV>
+                  <Text text65M dark10 marginR-10>
+                    添加到
+                  </Text>
+                  <StartTimeField />
+                </View>
               </View>
-              <Ionicons name="ios-send-sharp" size={24} color={Colors.dark30} onPress={submitForm} />
+              <Ionicons
+                name="ios-send-sharp"
+                size={18}
+                style={{ padding: 16 }}
+                color={Colors.dark30}
+                onPress={submitForm}
+              />
             </View>
-
-            <ScrollView>
-              <View margin-20>
+            <ScrollView onScrollBeginDrag={Keyboard.dismiss}>
+              <View marginH-20>
                 <TextInput
                   autoFocus
                   placeholder="输入一个简短的标题"
@@ -36,18 +50,22 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                   onBlur={handleBlur('title')}
                   style={{ fontSize: 18, height: 40 }}
                 />
-                <View style={{ height: 40 }}>
+
+                <View style={{ minHeight: 40 }}>
                   <TextInput placeholder="请输入描述" multiline style={{ fontSize: 16 }} />
                 </View>
+
                 <FormItemGroup label="更多设置">
                   <FormItem label="优先级">
-                    <Text>无</Text>
+                    <Chip
+                      labelStyle={{ color: Colors.dark40 }}
+                      borderRadius={8}
+                      containerStyle={{ borderColor: Colors.dark50 }}
+                      marginL-10
+                      label="P2"
+                      leftElement={<Ionicons name="flag" style={{ marginLeft: 10 }} color={Colors.dark40} />}
+                    />
                   </FormItem>
-                  <FormItem label="全天任务">
-                    <Switch />
-                  </FormItem>
-                  <StartTimeField />
-
                   <FormItem label="重复">
                     <Text>无</Text>
                   </FormItem>
@@ -66,7 +84,7 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                 </FormItemGroup>
               </View>
             </ScrollView>
-          </KeyboardAvoidingView>
+          </>
         )
       }}
     </Formik>

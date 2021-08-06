@@ -16,7 +16,6 @@ export default function HomeScreen() {
         headerLeft: HeaderLeft,
       }}
       drawerContent={() => <DrawerNavigator />}
-      sceneContainerStyle={{ backgroundColor: 'white', position: 'relative' }}
     >
       <Drawer.Screen name={'Root'} component={TodoList} />
     </Drawer.Navigator>

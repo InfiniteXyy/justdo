@@ -1,28 +1,31 @@
 import dayjs from 'dayjs'
 import { useFormikContext } from 'formik'
 import React, { useMemo, useState } from 'react'
-import { Text } from 'react-native-ui-lib'
+import { Chip, Colors } from 'react-native-ui-lib'
 import { todoFilters } from '../../../constant'
 import { ModalMenu } from '../../ui'
 import { AddTodoFormType } from '../form.model'
-import { FormItem } from './common'
 
 export function StartTimeField() {
   const [modalVisible, setModalVisible] = useState(false)
   const { values, setFieldValue } = useFormikContext<AddTodoFormType>()
 
   const valueDisplay = useMemo(() => {
-    if (values.startAt) return <Text>{dayjs(values.startAt).format('MM 月 DD 日')}</Text>
-    if (values.plan !== 'filter/inbox')
-      return <Text style={{ fontWeight: 'bold' }}>{todoFilters[values.plan].title}</Text>
-    return <Text>无</Text>
+    if (values.startAt) return dayjs(values.startAt).format('MM 月 DD 日')
+    return todoFilters[values.plan].title
   }, [values])
 
   return (
     <>
-      <FormItem label="开始时间" onPress={() => setModalVisible(true)}>
-        {valueDisplay}
-      </FormItem>
+      <Chip
+        backgroundColor={Colors.dark20}
+        labelStyle={{ color: 'white' }}
+        borderRadius={8}
+        containerStyle={{ borderWidth: 0 }}
+        label={valueDisplay}
+        onPress={() => setModalVisible(true)}
+      />
+
       <ModalMenu
         visible={modalVisible}
         setVisible={setModalVisible}
