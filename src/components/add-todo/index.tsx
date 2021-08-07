@@ -48,7 +48,7 @@ export const AddTodo = observer(
 
 const styles = StyleSheet.create({
   modal: {
-    height: '70%',
+    height: '60%',
     marginTop: 'auto',
     borderTopEndRadius: 8,
     borderTopStartRadius: 8,

@@ -8,6 +8,7 @@ import { todoList } from '../../data'
 import { useTodoListRoute } from '../../hooks/use-todolist-route'
 import { AddTodo } from '../add-todo'
 import { EmptyView } from './empty-view'
+import { filterTodos } from './filter-todos'
 import { TodoListHeader } from './header'
 import { TodoGroup } from './todo-group'
 
@@ -16,24 +17,12 @@ export const TodoList = gestureHandlerRootHOC(
     const { currentKey } = useTodoListRoute()
     const [addTodoVisible, setAddTodoVisible] = useState(false)
 
-    const currentTodos = (() => {
-      if (currentKey === 'archived/finished') {
-        return todoList.finishedTodos
-      }
-      if (currentKey === 'archived/removed') {
-        return todoList.archivedTodos
-      }
-      const activeTodos = todoList.todos.filter((i) => !i.isArchived && !i.isCompleted)
-      if (currentKey.startsWith('plan')) {
-        return activeTodos.filter((i) => i.plan === currentKey)
-      }
-      return activeTodos
-    })()
+    const todoGroups = filterTodos(todoList, currentKey)
 
     return (
       <>
         <TodoListHeader />
-        {currentTodos.length === 0 ? (
+        {todoGroups.every((i) => i.todos.length === 0) ? (
           <EmptyView />
         ) : (
           <ScrollView
@@ -48,7 +37,10 @@ export const TodoList = gestureHandlerRootHOC(
               ) : undefined
             }
           >
-            <TodoGroup todos={currentTodos} label="全部" />
+            {todoGroups.map((group) => {
+              if (group.todos.length === 0) return null
+              return <TodoGroup key={group.label} todos={group.todos} label={group.label} subLabel={group.subLabel} />
+            })}
             <View height={100} />
           </ScrollView>
         )}

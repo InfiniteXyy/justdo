@@ -1,10 +1,13 @@
 import React from 'react'
-import { Text, View } from 'react-native-ui-lib'
+import { TextInput } from 'react-native'
+import { View } from 'react-native-ui-lib'
 
 export default function SearchScreen() {
   return (
     <View>
-      <Text>Search</Text>
+      <View bg-dark70 padding-10 margin-10 br20>
+        <TextInput placeholder="搜索" autoFocus />
+      </View>
     </View>
   )
 }

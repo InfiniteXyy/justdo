@@ -7,22 +7,30 @@ import { TodoItem } from './todo-item'
 interface TodoGroupProps {
   todos: ITodo[]
   label: string
+  subLabel?: string
 }
 export function TodoGroup(props: TodoGroupProps) {
-  const { todos, label } = props
+  const { todos, label, subLabel } = props
   const [expanded, setExpanded] = useState(true)
 
   return (
-    <View br20 margin-8 backgroundColor="white" style={{ overflow: 'hidden' }}>
+    <View br20 marginH-8 marginT-8 backgroundColor="white" style={{ overflow: 'hidden' }}>
       <ExpandableSection
         expanded={expanded}
         onPress={() => setExpanded(!expanded)}
         sectionHeader={
-          <View row centerV marginL-12 marginV-10>
+          <View row centerV marginH-12 marginV-10>
             <Text text80M dark30 marginR-4>
               {label}
             </Text>
             <Ionicons name={expanded ? 'caret-up' : 'caret-down'} size={12} color={Colors.dark30} />
+            {subLabel && (
+              <View flexG right>
+                <Text text90L dark60 marginR-4>
+                  {subLabel}
+                </Text>
+              </View>
+            )}
           </View>
         }
       >

@@ -36,13 +36,20 @@ export const TodoNode = types
     isCompleted: types.optional(types.boolean, false),
     isArchived: types.optional(types.boolean, false),
     isStarred: types.optional(types.boolean, false),
-    plan: types.optional<ISimpleType<PlanType>>(types.string as any, 'plan/inbox'),
+    plan: types.maybeNull<ISimpleType<PlanType>>(types.optional(types.string, 'plan/inbox') as any),
     startAt: types.maybeNull(types.string),
     createdAt: types.optional(types.string, () => dayjs().toISOString()),
     repeatOption: types.maybeNull(RepeatOptionNode),
     subTodos: types.array(SubTodoNode),
   })
   .actions((todo) => ({
+    setStartAt: (startAt: string | null) => {
+      todo.startAt = startAt
+      if (todo.startAt) {
+        // 当拥有 开始时间后，就不会在几个默认的分类中了
+        todo.plan = null
+      }
+    },
     toggleStar: () => (todo.isStarred = !todo.isStarred),
     toggleArchive() {
       LayoutAnimation.easeInEaseOut()
@@ -58,9 +65,12 @@ export const TodoNode = types
     },
     toggleStatus() {
       LayoutAnimation.easeInEaseOut()
+      if (todo.repeatOption) {
+        return
+      }
       todo.isCompleted = !todo.isCompleted
       if (todo.isCompleted) {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
         todo.subTodos.forEach((i) => i.toggleStatus(true))
         Toast.show({
           type: 'success',
@@ -69,11 +79,11 @@ export const TodoNode = types
           onPress: over(this.toggleStatus, Toast.hide),
         })
       } else {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
       }
     },
     addSubTodo: (title: string) => todo.subTodos.push(SubTodoNode.create({ title, isCompleted: false })),
-    movePlan: (plan: PlanType) => (todo.plan = plan),
+    movePlan: (plan: PlanType | null) => (todo.plan = plan),
     remove: () => (getRoot(todo) as any).removeTodo(todo),
   }))
 

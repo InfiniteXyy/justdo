@@ -10,6 +10,7 @@ import React from 'react'
 import { Colors } from 'react-native-ui-lib'
 import HomeScreen from '../screens/home-screen'
 import PlanScreen from '../screens/plan-screen'
+import RawContentScreen from '../screens/raw-content-screen'
 import ReviewScreen from '../screens/review-screen'
 import SearchScreen from '../screens/search-screen'
 import SettingScreen from '../screens/setting-screen'
@@ -60,6 +61,11 @@ function RootNavigator() {
         name="TodoDetail"
         options={{ headerShown: true, headerTitle: '详情', headerBackTitleVisible: false }}
         component={TodoDetailScreen}
+      />
+      <Stack.Screen
+        name="RawContent"
+        options={{ headerShown: true, headerTitle: '文件', headerBackTitleVisible: false }}
+        component={RawContentScreen}
       />
     </Stack.Navigator>
   )

@@ -3,14 +3,22 @@ import { Formik } from 'formik'
 import React from 'react'
 import { Keyboard, ScrollView, TextInput } from 'react-native'
 import { Chip, Colors, Text, View } from 'react-native-ui-lib'
+import { PlanType } from '../../constant'
+import { useTodoListRoute } from '../../hooks/use-todolist-route'
 import { FormError, FormItem, FormItemGroup } from './form-items/common'
 import { StartTimeField } from './form-items/start-time'
 import { AddTodoFormSchema, AddTodoFormType } from './form.model'
 
 export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; onClose: () => void }) {
+  const currentPlan = useTodoListRoute((state) => state.currentKey)
   return (
     <Formik<AddTodoFormType>
-      initialValues={{ description: null, startAt: null, title: '', plan: 'plan/inbox' }}
+      initialValues={{
+        description: null,
+        startAt: null,
+        title: '',
+        plan: currentPlan.startsWith('plan') ? (currentPlan as PlanType) : 'plan/inbox',
+      }}
       onSubmit={props.onSubmit}
       validationSchema={AddTodoFormSchema}
       validateOnBlur={false}
@@ -65,12 +73,6 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                       containerStyle={{ borderColor: Colors.dark50 }}
                       label="P2"
                     />
-                  </FormItem>
-                  <FormItem
-                    label="重复"
-                    icon={<Ionicons name="timer" style={{ marginRight: 10 }} color={Colors.dark20} size={18} />}
-                  >
-                    <Text>无</Text>
                   </FormItem>
                   <FormItem
                     label="标签"

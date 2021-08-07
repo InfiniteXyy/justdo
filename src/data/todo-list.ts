@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree'
+import { getSnapshot, Instance, types } from 'mobx-state-tree'
 import { PlanType } from '../constant'
 import { ITodo, TodoNode } from './todo'
 
@@ -12,6 +12,9 @@ export const TodoListNode = types
     },
     removeTodo(todo: ITodo) {
       state._todos.remove(todo)
+    },
+    export() {
+      return JSON.stringify(getSnapshot(state), null, 2)
     },
   }))
   .views((self) => ({

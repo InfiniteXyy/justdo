@@ -31,7 +31,7 @@ export function TodoListHeader() {
         menuItems={[
           {
             label: '标签过滤',
-            onPress: () => navigation.navigate('Search'),
+            onPress: () => {},
             icon: <Ionicons name="filter" size={16} color={Colors.dark50} style={{ marginRight: 8 }} />,
           },
           {
