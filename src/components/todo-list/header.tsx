@@ -14,6 +14,9 @@ export function TodoListHeader() {
     setHeader({
       right: (
         <View flex centerV row paddingH-6>
+          <TouchableOpacity padding-10 onPress={() => navigation.navigate('Search')}>
+            <Ionicons name="search" size={24} color={Colors.dark20} />
+          </TouchableOpacity>
           <TouchableOpacity padding-10 onPress={() => setMenuVisible((i) => !i)}>
             <Ionicons key="more" name="ellipsis-horizontal" size={24} color={Colors.dark20} />
           </TouchableOpacity>
@@ -26,6 +29,11 @@ export function TodoListHeader() {
     <>
       <DropdownMenu
         menuItems={[
+          {
+            label: '标签过滤',
+            onPress: () => navigation.navigate('Search'),
+            icon: <Ionicons name="filter" size={16} color={Colors.dark50} style={{ marginRight: 8 }} />,
+          },
           {
             label: '计划',
             onPress: () => navigation.navigate('Plan'),
@@ -40,16 +48,6 @@ export function TodoListHeader() {
             label: '分组查看',
             onPress: () => {},
             icon: <Ionicons name="grid" size={16} color={Colors.dark50} style={{ marginRight: 8 }} />,
-          },
-          {
-            label: '标签过滤',
-            onPress: () => navigation.navigate('Search'),
-            icon: <Ionicons name="filter" size={16} color={Colors.dark50} style={{ marginRight: 8 }} />,
-          },
-          {
-            label: '搜索',
-            onPress: () => navigation.navigate('Search'),
-            icon: <Ionicons name="search" size={16} color={Colors.dark50} style={{ marginRight: 8 }} />,
           },
         ]}
         visible={menuVisible}

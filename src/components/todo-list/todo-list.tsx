@@ -17,16 +17,17 @@ export const TodoList = gestureHandlerRootHOC(
     const [addTodoVisible, setAddTodoVisible] = useState(false)
 
     const currentTodos = (() => {
-      if (currentKey === 'finished') {
+      if (currentKey === 'archived/finished') {
         return todoList.finishedTodos
       }
-      if (currentKey === 'removed') {
+      if (currentKey === 'archived/removed') {
         return todoList.archivedTodos
       }
-      if (currentKey.startsWith('filter')) {
-        return todoList.todos.filter((i) => i.plan === currentKey && !i.isArchived && !i.isCompleted)
+      const activeTodos = todoList.todos.filter((i) => !i.isArchived && !i.isCompleted)
+      if (currentKey.startsWith('plan')) {
+        return activeTodos.filter((i) => i.plan === currentKey)
       }
-      return todoList.todos
+      return activeTodos
     })()
 
     return (

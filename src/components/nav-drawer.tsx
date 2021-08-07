@@ -11,16 +11,16 @@ import { AllFilterType, todoFilters } from '../constant'
 import { useTodoListRoute } from '../hooks/use-todolist-route'
 
 export function DrawerNavigator() {
-  const { currentKey, setCurrentKey } = useTodoListRoute()
+  const { currentKey, setCurrentKey, isDrawerFixed } = useTodoListRoute()
   const navigation = useNavigation()
 
   return (
     <SafeAreaView style={{ height: '100%' }}>
-      <View padding-20>
-        <Text text60 dark30 style={{ fontWeight: 'bold' }}>
+      {!isDrawerFixed && (
+        <Text margin-20 text60 dark30 style={{ fontWeight: 'bold' }}>
           {dayjs().format('MM 月 DD 日')}
         </Text>
-      </View>
+      )}
       <ScrollView>
         {Object.entries(todoFilters).map((entry) => {
           const key = entry[0] as AllFilterType
@@ -35,21 +35,28 @@ export function DrawerNavigator() {
                   setCurrentKey(key)
                   navigation.dispatch(DrawerActions.closeDrawer())
                 }}
+                activeTintColor={Colors.yellow10}
                 icon={({ color, size }) => <Ionicons name={value.icon as any} size={size} color={color} />}
               />
             </React.Fragment>
           )
         })}
       </ScrollView>
-      <View row spread centerV>
-        <TouchableOpacity row centerV padding-20>
-          <Ionicons name="add" size={18} color={Colors.dark30} />
-          <Text dark30>添加清单</Text>
-        </TouchableOpacity>
-        <TouchableOpacity padding-20>
+      {!isDrawerFixed ? (
+        <View row spread centerV>
+          <TouchableOpacity row centerV padding-20>
+            <Ionicons name="add" size={18} color={Colors.dark30} />
+            <Text dark30>添加筛选</Text>
+          </TouchableOpacity>
+          <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
+            <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
           <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
         </TouchableOpacity>
-      </View>
+      )}
     </SafeAreaView>
   )
 }

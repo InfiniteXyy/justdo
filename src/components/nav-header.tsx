@@ -23,17 +23,19 @@ export function HeaderRight() {
   return useHeader((state) => state.headerRight)
 }
 export function HeaderLeft() {
+  const { isDrawerFixed, setDrawerFixed } = useTodoListRoute()
   const leftIcon = useHeader((state) => state.leftIcon)
   const navigation = useNavigation()
   if (leftIcon === undefined) {
-    return (
-      <TouchableOpacity
-        style={{ paddingHorizontal: 20 }}
-        onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-      >
-        <Ionicons name="menu" size={24} color={Colors.dark20} />
-      </TouchableOpacity>
-    )
+    if (!isDrawerFixed)
+      return (
+        <TouchableOpacity
+          style={{ paddingHorizontal: 20 }}
+          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        >
+          <Ionicons name="menu" size={24} color={Colors.dark20} />
+        </TouchableOpacity>
+      )
   }
   return leftIcon
 }

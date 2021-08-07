@@ -3,14 +3,16 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import { Ionicons } from '@expo/vector-icons'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
-import { ArrangeTodo, ArrangeTodoModal } from '../components/arrange-todo'
+import { Colors } from 'react-native-ui-lib'
 import HomeScreen from '../screens/home-screen'
 import PlanScreen from '../screens/plan-screen'
 import ReviewScreen from '../screens/review-screen'
 import SearchScreen from '../screens/search-screen'
+import SettingScreen from '../screens/setting-screen'
 import TodoDetailScreen from '../screens/todo-detail-screen'
 
 export default function Navigation() {
@@ -25,7 +27,14 @@ const Stack = createStackNavigator()
 
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerBackImage: () => (
+          <Ionicons name="arrow-back" size={24} style={{ paddingHorizontal: 10 }} color={Colors.dark20} />
+        ),
+      }}
+    >
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen
         name="Plan"
@@ -41,6 +50,11 @@ function RootNavigator() {
         name="Review"
         options={{ headerShown: true, headerTitle: '回顾', headerBackTitleVisible: false }}
         component={ReviewScreen}
+      />
+      <Stack.Screen
+        name="Setting"
+        options={{ headerShown: true, headerTitle: '设置', headerBackTitleVisible: false }}
+        component={SettingScreen}
       />
       <Stack.Screen
         name="TodoDetail"

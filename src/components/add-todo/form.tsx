@@ -3,15 +3,17 @@ import { Formik } from 'formik'
 import React from 'react'
 import { Keyboard, ScrollView, TextInput } from 'react-native'
 import { Chip, Colors, Text, View } from 'react-native-ui-lib'
-import { FormItem, FormItemGroup } from './form-items/common'
+import { FormError, FormItem, FormItemGroup } from './form-items/common'
 import { StartTimeField } from './form-items/start-time'
-import { AddTodoFormType } from './form.model'
+import { AddTodoFormSchema, AddTodoFormType } from './form.model'
 
 export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; onClose: () => void }) {
   return (
     <Formik<AddTodoFormType>
-      initialValues={{ description: null, startAt: null, title: '', plan: 'filter/inbox' }}
+      initialValues={{ description: null, startAt: null, title: '', plan: 'plan/inbox' }}
       onSubmit={props.onSubmit}
+      validationSchema={AddTodoFormSchema}
+      validateOnBlur={false}
     >
       {({ submitForm, values, handleChange, handleBlur }) => {
         return (
@@ -27,7 +29,7 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                 />
                 <View row centerV>
                   <Text text65M dark10 marginR-10>
-                    添加到
+                    安排到
                   </Text>
                   <StartTimeField />
                 </View>
@@ -50,35 +52,36 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                   onBlur={handleBlur('title')}
                   style={{ fontSize: 18, height: 40 }}
                 />
-
-                <View style={{ minHeight: 40 }}>
-                  <TextInput placeholder="请输入描述" multiline style={{ fontSize: 16 }} />
-                </View>
-
+                <FormError name="title" />
+                <TextInput placeholder="描述" multiline style={{ fontSize: 16 }} />
                 <FormItemGroup label="更多设置">
-                  <FormItem label="优先级">
+                  <FormItem
+                    label="优先级"
+                    icon={<Ionicons name="flag" style={{ marginRight: 10 }} color={Colors.dark20} size={18} />}
+                  >
                     <Chip
                       labelStyle={{ color: Colors.dark40 }}
                       borderRadius={8}
                       containerStyle={{ borderColor: Colors.dark50 }}
-                      marginL-10
                       label="P2"
-                      leftElement={<Ionicons name="flag" style={{ marginLeft: 10 }} color={Colors.dark40} />}
                     />
                   </FormItem>
-                  <FormItem label="重复">
+                  <FormItem
+                    label="重复"
+                    icon={<Ionicons name="timer" style={{ marginRight: 10 }} color={Colors.dark20} size={18} />}
+                  >
                     <Text>无</Text>
                   </FormItem>
-                  <FormItem label="提醒">
+                  <FormItem
+                    label="标签"
+                    icon={<Ionicons name="pricetag" style={{ marginRight: 10 }} color={Colors.dark20} size={18} />}
+                  >
                     <Text>无</Text>
                   </FormItem>
-                </FormItemGroup>
-
-                <FormItemGroup label="分组设置">
-                  <FormItem label="项目">
-                    <Text>无</Text>
-                  </FormItem>
-                  <FormItem label="标签">
+                  <FormItem
+                    label="提醒"
+                    icon={<Ionicons name="alarm" style={{ marginRight: 10 }} color={Colors.dark20} size={18} />}
+                  >
                     <Text>无</Text>
                   </FormItem>
                 </FormItemGroup>

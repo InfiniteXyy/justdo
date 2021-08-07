@@ -1,22 +1,20 @@
 import dayjs from 'dayjs'
+import * as Haptics from 'expo-haptics'
+import { over } from 'lodash'
 import { getRoot, Instance, ISimpleType, types } from 'mobx-state-tree'
-import { FilterType } from '../constant'
+import { LayoutAnimation } from 'react-native'
+import Toast from 'react-native-toast-message'
+import { PlanType } from '../constant'
 import { randomId } from './utils'
 
-export const RepeatOptionNode = types
-  .model('TodoRepeat', {
-    todoId: types.string,
-    repeat: types.optional(types.enumeration(['daily', 'weekly', 'monthly']), 'daily'),
-    repeatInterval: types.optional(types.array(types.number), () => [1]),
-    repeatEnd: types.maybeNull(types.string),
-    repeatStart: types.optional(types.string, () => dayjs().toISOString()),
-    modifiedDays: types.array(types.string),
-  })
-  .actions((self) => ({
-    addModifiedDays(date: string) {
-      self.modifiedDays.push(date)
-    },
-  }))
+export const RepeatOptionNode = types.model('TodoRepeat', {
+  todoId: types.string,
+  repeat: types.optional(types.enumeration(['daily', 'weekly', 'monthly']), 'daily'),
+  repeatInterval: types.optional(types.array(types.number), () => [1]),
+  repeatEnd: types.maybeNull(types.string),
+  repeatStart: types.optional(types.string, () => dayjs().toISOString()),
+  relatedTodoIds: types.array(types.string),
+})
 
 export const SubTodoNode = types
   .model('SubTodo', {
@@ -38,7 +36,7 @@ export const TodoNode = types
     isCompleted: types.optional(types.boolean, false),
     isArchived: types.optional(types.boolean, false),
     isStarred: types.optional(types.boolean, false),
-    plan: types.optional<ISimpleType<FilterType>>(types.string as any, 'filter/inbox'),
+    plan: types.optional<ISimpleType<PlanType>>(types.string as any, 'plan/inbox'),
     startAt: types.maybeNull(types.string),
     createdAt: types.optional(types.string, () => dayjs().toISOString()),
     repeatOption: types.maybeNull(RepeatOptionNode),
@@ -46,17 +44,36 @@ export const TodoNode = types
   })
   .actions((todo) => ({
     toggleStar: () => (todo.isStarred = !todo.isStarred),
-    toggleArchive: () => (todo.isArchived = !todo.isArchived),
-    toggleStatus: () => {
-      todo.isCompleted = !todo.isCompleted
-      if (todo.isCompleted) {
-        todo.subTodos.forEach((i) => {
-          i.toggleStatus(true)
+    toggleArchive() {
+      LayoutAnimation.easeInEaseOut()
+      todo.isArchived = !todo.isArchived
+      if (todo.isArchived) {
+        Toast.show({
+          type: 'info',
+          text1: '删除：' + todo.title,
+          text2: '点击撤销',
+          onPress: over(this.toggleArchive, Toast.hide),
         })
       }
     },
+    toggleStatus() {
+      LayoutAnimation.easeInEaseOut()
+      todo.isCompleted = !todo.isCompleted
+      if (todo.isCompleted) {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+        todo.subTodos.forEach((i) => i.toggleStatus(true))
+        Toast.show({
+          type: 'success',
+          text1: '完成：' + todo.title,
+          text2: '点击撤销',
+          onPress: over(this.toggleStatus, Toast.hide),
+        })
+      } else {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+      }
+    },
     addSubTodo: (title: string) => todo.subTodos.push(SubTodoNode.create({ title, isCompleted: false })),
-    movePlan: (plan: FilterType) => (todo.plan = plan),
+    movePlan: (plan: PlanType) => (todo.plan = plan),
     remove: () => (getRoot(todo) as any).removeTodo(todo),
   }))
 

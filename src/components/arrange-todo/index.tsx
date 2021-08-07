@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
-import { FilterType, todoFilters } from '../../constant'
+import { PlanType, todoFilters } from '../../constant'
 import { ITodo } from '../../data'
 import { ModalMenu } from '../ui'
 
@@ -26,8 +26,8 @@ export const ArrangeTodoModal = forwardRef<ArrangeTodoModalRef>((_props, ref) =>
       menu={Object.entries(todoFilters).map(([key, value]) => ({
         iconName: value.icon,
         title: value.title,
-        onPress: () => todoRef.current?.movePlan(key as FilterType),
-        hidden: !key.startsWith('filter'),
+        onPress: () => todoRef.current?.movePlan(key as PlanType),
+        hidden: key.startsWith('archived'),
       }))}
     />
   )

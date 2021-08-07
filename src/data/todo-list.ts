@@ -1,5 +1,5 @@
 import { Instance, types } from 'mobx-state-tree'
-import { FilterType } from '../constant'
+import { PlanType } from '../constant'
 import { ITodo, TodoNode } from './todo'
 
 export const TodoListNode = types
@@ -7,7 +7,7 @@ export const TodoListNode = types
     _todos: types.array(TodoNode),
   })
   .actions((state) => ({
-    addTodo(props: { title: string; plan: FilterType; description: string | null; startAt: string | null }) {
+    addTodo(props: { title: string; plan: PlanType; description: string | null; startAt: string | null }) {
       state._todos.push(TodoNode.create(props))
     },
     removeTodo(todo: ITodo) {

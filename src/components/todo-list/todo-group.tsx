@@ -22,7 +22,7 @@ export function TodoGroup(props: TodoGroupProps) {
             <Text text80M dark30 marginR-4>
               {label}
             </Text>
-            <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={12} color={Colors.dark30} />
+            <Ionicons name={expanded ? 'caret-up' : 'caret-down'} size={12} color={Colors.dark30} />
           </View>
         }
       >
