@@ -37,7 +37,7 @@ export const AddTodo = observer(
           absR
           style={{ position: 'absolute', right: 20, bottom: 40, height: 60, width: 60 }}
           onPress={onOpen}
-          backgroundColor={Colors.yellow20}
+          backgroundColor={Colors.primary}
         >
           <Ionicons name="add" size={32} color={'white'} />
         </Button>

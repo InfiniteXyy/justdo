@@ -7,7 +7,7 @@ import { useTodoListRoute } from '../hooks/use-todolist-route'
 
 export default function SettingScreen() {
   const { isDrawerFixed, setDrawerFixed } = useTodoListRoute()
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
   return (
     <ScrollView>
       <View margin-10 br20 backgroundColor={Colors.white} style={{ overflow: 'hidden' }}>

@@ -7,5 +7,6 @@
     "**/.DS_Store": true,
     "node_modules": true,
     ".expo*": true
-  }
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

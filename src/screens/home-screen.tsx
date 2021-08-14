@@ -10,8 +10,8 @@ export default function HomeScreen() {
   return (
     <Drawer.Navigator
       initialRouteName="Root"
-      {...(isDrawerFixed ? { drawerType: 'permanent', drawerStyle: { width: 60 } } : {})}
       screenOptions={{
+        ...(isDrawerFixed ? { drawerType: 'permanent', drawerStyle: { width: 60 } } : { drawerType: 'slide' }),
         headerShown: true,
         headerTitle: HeaderTitle,
         headerRight: HeaderRight,

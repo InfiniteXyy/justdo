@@ -10,7 +10,7 @@ import { TodoItemOperations } from './todo-item.operations'
 
 export const TodoItem = observer((props: { todo: ITodo }) => {
   const { todo } = props
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   return (
     <TodoItemOperations todo={todo}>

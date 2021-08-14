@@ -8,7 +8,7 @@ import { DropdownMenu } from '../ui'
 export function TodoListHeader() {
   const setHeader = useHeader((state) => state.setHeader)
   const [menuVisible, setMenuVisible] = useState(false)
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   useEffect(() => {
     setHeader({

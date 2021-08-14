@@ -12,7 +12,7 @@ import { useTodoListRoute } from '../hooks/use-todolist-route'
 
 export function DrawerNavigator() {
   const { currentKey, setCurrentKey, isDrawerFixed } = useTodoListRoute()
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   return (
     <SafeAreaView style={{ height: '100%' }}>
@@ -35,7 +35,7 @@ export function DrawerNavigator() {
                   setCurrentKey(key)
                   navigation.dispatch(DrawerActions.closeDrawer())
                 }}
-                activeTintColor={Colors.yellow10}
+                activeTintColor={Colors.primary}
                 icon={({ color, size }) => <Ionicons name={value.icon as any} size={size} color={color} />}
               />
             </React.Fragment>
@@ -44,7 +44,7 @@ export function DrawerNavigator() {
       </ScrollView>
       {!isDrawerFixed ? (
         <View row spread centerV>
-          <TouchableOpacity row centerV padding-20>
+          <TouchableOpacity row centerV padding-20 onPress={() => navigation.navigate('Filters')}>
             <Ionicons name="add" size={18} color={Colors.dark30} />
             <Text dark30>添加筛选</Text>
           </TouchableOpacity>
