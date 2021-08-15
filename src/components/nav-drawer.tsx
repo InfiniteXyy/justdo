@@ -53,9 +53,14 @@ export function DrawerNavigator() {
           </TouchableOpacity>
         </View>
       ) : (
-        <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
-          <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
-        </TouchableOpacity>
+        <>
+          <TouchableOpacity padding-20 onPress={() => navigation.navigate('Filters')}>
+            <Ionicons name="filter-outline" size={22} color={Colors.dark20} />
+          </TouchableOpacity>
+          <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
+            <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
+          </TouchableOpacity>
+        </>
       )}
     </SafeAreaView>
   )

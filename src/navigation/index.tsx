@@ -32,7 +32,6 @@ Stack
 function RootNavigator() {
   return (
     <Stack.Navigator
-      animation="slide_from_right"
       screenOptions={{
         headerShown: false,
         headerBackImage: () => <Ionicons name="arrow-back" size={24} style={{ paddingHorizontal: 10 }} color={Colors.dark20} />,
