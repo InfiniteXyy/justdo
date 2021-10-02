@@ -43,24 +43,15 @@ export function DrawerNavigator() {
         })}
       </ScrollView>
       {!isDrawerFixed ? (
-        <View row spread centerV>
-          <TouchableOpacity row centerV padding-20 onPress={() => navigation.navigate('Filters')}>
-            <Ionicons name="add" size={18} color={Colors.dark30} />
-            <Text dark30>添加筛选</Text>
-          </TouchableOpacity>
+        <View row right centerV>
           <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
             <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
           </TouchableOpacity>
         </View>
       ) : (
-        <>
-          <TouchableOpacity padding-20 onPress={() => navigation.navigate('Filters')}>
-            <Ionicons name="filter-outline" size={22} color={Colors.dark20} />
-          </TouchableOpacity>
-          <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
-            <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
-          </TouchableOpacity>
-        </>
+        <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
+          <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
+        </TouchableOpacity>
       )}
     </SafeAreaView>
   )

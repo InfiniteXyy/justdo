@@ -35,7 +35,7 @@ export function StartTimeField() {
           iconName: value.icon,
           title: value.title,
           onPress: () => setFieldValue('plan', key),
-          hidden: key.startsWith('archived'),
+          hidden: !key.startsWith('plan'),
         }))}
       />
     </>

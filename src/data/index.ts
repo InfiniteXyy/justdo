@@ -2,7 +2,7 @@ export * from './todo'
 export * from './todo-list'
 
 import dayjs from 'dayjs'
-import { RepeatOptionNode, SubTodoNode, TodoNode } from './todo'
+import { TodoNode } from './todo'
 import { TodoListNode } from './todo-list'
 
 const mockTodos = [
@@ -19,7 +19,6 @@ const mockTodos = [
   }),
   TodoNode.create({
     title: '有子任务',
-    subTodos: [SubTodoNode.create({ title: '子任务在此' })],
     startAt: dayjs().startOf('d').add(3, 'd').toISOString(),
     plan: null,
   }),
@@ -29,7 +28,6 @@ const mockTodos = [
   TodoNode.create({
     id: '123',
     title: '增加重复事件功能',
-    repeatOption: RepeatOptionNode.create({ todoId: '123', repeatStart: dayjs().add(-2, 'd').toISOString() }),
     startAt: dayjs().startOf('d').add(1, 'd').toISOString(),
     plan: null,
   }),

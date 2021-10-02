@@ -9,7 +9,6 @@ import { useTodoListRoute } from '../../hooks/use-todolist-route'
 import { AddTodo } from '../add-todo'
 import { EmptyView } from './empty-view'
 import { filterTodos } from './filter-todos'
-import { TodoListHeader } from './header'
 import { TodoGroup } from './todo-group'
 
 export const TodoList = gestureHandlerRootHOC(
@@ -21,7 +20,6 @@ export const TodoList = gestureHandlerRootHOC(
 
     return (
       <>
-        <TodoListHeader />
         {todoGroups.every((i) => i.todos.length === 0) ? (
           <EmptyView />
         ) : (

@@ -1,10 +1,10 @@
 export const todoFilters = {
-  today: { title: '今日待办', icon: 'sunny' },
-  calendar: { title: '日程', icon: 'calendar' },
-  'plan/inbox': { title: '收集箱', icon: 'file-tray', divider: true },
+  'plan/inbox': { title: '收集箱', icon: 'file-tray' },
   'plan/next': { title: '下一步行动', icon: 'rocket' },
   'plan/maybe': { title: '将来/也许', icon: 'git-branch' },
   'plan/wait': { title: '等待', icon: 'hand-right' },
+  today: { title: '今日待办', icon: 'sunny', divider: true },
+  calendar: { title: '日程', icon: 'calendar' },
   'archived/finished': { title: '已完成', icon: 'checkmark', divider: true },
   'archived/removed': { title: '回收站', icon: 'trash' },
 } as const

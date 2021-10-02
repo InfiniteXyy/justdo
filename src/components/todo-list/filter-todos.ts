@@ -2,10 +2,7 @@ import dayjs from 'dayjs'
 import { AllFilterType, todoFilters } from '../../constant'
 import { ITodo, ITodoList } from '../../data'
 
-export function filterTodos(
-  todoList: ITodoList,
-  currentKey: AllFilterType
-): { label: string; todos: ITodo[]; subLabel?: string }[] {
+export function filterTodos(todoList: ITodoList, currentKey: AllFilterType): { label: string; todos: ITodo[]; subLabel?: string }[] {
   const today = dayjs().startOf('d')
   if (currentKey === 'archived/finished') {
     return [{ label: '已完成', todos: todoList.finishedTodos }]
@@ -29,7 +26,6 @@ export function filterTodos(
       {
         label: '未来',
         todos: todoList.todos.filter((i) => dayjs(i.startAt).isAfter(today.add(2, 'd'))),
-        subLabel: '不包括重复任务',
       },
     ]
   }

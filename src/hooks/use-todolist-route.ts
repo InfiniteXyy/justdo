@@ -15,7 +15,7 @@ export const useTodoListRoute = create(
   persist<TodoListRouteState>(
     (set) => ({
       currentKey: 'today',
-      isDrawerFixed: false,
+      isDrawerFixed: true,
       setDrawerFixed(fixed) {
         set(
           produce((draft: Draft<TodoListRouteState>) => {

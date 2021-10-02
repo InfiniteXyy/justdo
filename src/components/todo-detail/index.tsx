@@ -1,8 +1,7 @@
-import { Ionicons } from '@expo/vector-icons'
+import dayjs from 'dayjs'
 import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
-import { TextInput } from 'react-native'
-import { Card, Colors, Text, View } from 'react-native-ui-lib'
+import React from 'react'
+import { Card, Text, View } from 'react-native-ui-lib'
 import { ITodo } from '../../data'
 import { Checkbox } from '../ui'
 
@@ -11,7 +10,6 @@ interface TodoDetailProps {
 }
 export const TodoDetail = observer((props: TodoDetailProps) => {
   const { todo } = props
-  const [subTodoText, setSubTodoText] = useState('')
   return (
     <View padding-20>
       <Card padding-20>
@@ -21,35 +19,15 @@ export const TodoDetail = observer((props: TodoDetailProps) => {
             {todo.title}
           </Text>
         </View>
-        {todo.description && (
-          <Text text70 dark40>
-            {todo.description}
-          </Text>
-        )}
-        <View height={1} marginV-10 backgroundColor={Colors.dark80} />
-
-        <View>
-          {todo.subTodos.map((i, index) => (
-            <View row centerV key={index} marginT-10>
-              <Checkbox checked={i.isCompleted} onChange={i.toggleStatus} />
-              <Text marginL-10>{i.title}</Text>
-            </View>
-          ))}
-          <View row marginT-10>
-            <Ionicons name="add" color={Colors.dark50} size={24} />
-            <TextInput
-              placeholder="添加子任务"
-              style={{ marginLeft: 10 }}
-              value={subTodoText}
-              onChangeText={setSubTodoText}
-              onSubmitEditing={() => {
-                todo.addSubTodo(subTodoText)
-                setSubTodoText('')
-              }}
-            />
-          </View>
-        </View>
+        <InfoText>ID：{todo.id}</InfoText>
+        <InfoText>创建于：{dayjs(todo.createdAt).format('YYYY/MM/DD')}</InfoText>
+        <InfoText>计划时间：{todo.startAt ? dayjs(todo.startAt).format('YYYY/MM/DD') : '无'}</InfoText>
+        <InfoText>收集箱：{todo.plan || '无'}</InfoText>
       </Card>
     </View>
   )
 })
+
+function InfoText(props: { children: React.ReactNode }) {
+  return <Text grey20 marginT-4>{props.children}</Text>
+}

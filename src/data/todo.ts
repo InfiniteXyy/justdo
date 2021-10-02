@@ -7,15 +7,6 @@ import Toast from 'react-native-toast-message'
 import { PlanType } from '../constant'
 import { randomId } from './utils'
 
-export const RepeatOptionNode = types.model('TodoRepeat', {
-  todoId: types.string,
-  repeat: types.optional(types.enumeration(['daily', 'weekly', 'monthly']), 'daily'),
-  repeatInterval: types.optional(types.array(types.number), () => [1]),
-  repeatEnd: types.maybeNull(types.string),
-  repeatStart: types.optional(types.string, () => dayjs().toISOString()),
-  relatedTodoIds: types.array(types.string),
-})
-
 export const SubTodoNode = types
   .model('SubTodo', {
     title: types.string,
@@ -39,8 +30,6 @@ export const TodoNode = types
     plan: types.maybeNull<ISimpleType<PlanType>>(types.optional(types.string, 'plan/inbox') as any),
     startAt: types.maybeNull(types.string),
     createdAt: types.optional(types.string, () => dayjs().toISOString()),
-    repeatOption: types.maybeNull(RepeatOptionNode),
-    subTodos: types.array(SubTodoNode),
   })
   .actions((todo) => ({
     setStartAt: (startAt: string | null) => {
@@ -65,13 +54,9 @@ export const TodoNode = types
     },
     toggleStatus() {
       LayoutAnimation.easeInEaseOut()
-      if (todo.repeatOption) {
-        return
-      }
       todo.isCompleted = !todo.isCompleted
       if (todo.isCompleted) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-        todo.subTodos.forEach((i) => i.toggleStatus(true))
         Toast.show({
           type: 'success',
           text1: '完成：' + todo.title,
@@ -82,7 +67,6 @@ export const TodoNode = types
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
       }
     },
-    addSubTodo: (title: string) => todo.subTodos.push(SubTodoNode.create({ title, isCompleted: false })),
     movePlan: (plan: PlanType | null) => (todo.plan = plan),
     remove: () => (getRoot(todo) as any).removeTodo(todo),
   }))
