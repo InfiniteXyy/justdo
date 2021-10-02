@@ -28,15 +28,15 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
           <>
             <View row centerV spread>
               <View row centerV>
-                <Ionicons name="close" size={24} style={{ padding: 16 }} color={Colors.dark40} onPress={props.onClose} />
+                <Ionicons name="close" size={24} style={{ padding: 16 }} color={Colors.grey40} onPress={props.onClose} />
                 <View row centerV>
-                  <Text text65M dark10 marginR-10>
+                  <Text text65M grey10 marginR-10>
                     安排到
                   </Text>
                   <StartTimeField />
                 </View>
               </View>
-              <Ionicons name="ios-send-sharp" size={18} style={{ padding: 16 }} color={Colors.dark30} onPress={submitForm} />
+              <Ionicons name="ios-send-sharp" size={18} style={{ padding: 16 }} color={Colors.grey30} onPress={submitForm} />
             </View>
             <ScrollView onScrollBeginDrag={Keyboard.dismiss}>
               <View marginH-20>

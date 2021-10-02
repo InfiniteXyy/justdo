@@ -51,13 +51,13 @@ export const ArrangeTodoModal = forwardRef<ArrangeTodoModalRef>((_props, ref) =>
       <Modal visible={calendarVisible} setVisible={setCalendarVisible} title="日程">
         <Calendar
           markedDates={{
-            [dayjs().format('YYYY-MM-DD')]: { selected: true, selectedColor: Colors.dark40 },
+            [dayjs().format('YYYY-MM-DD')]: { selected: true, selectedColor: Colors.grey40 },
           }}
           renderArrow={(direction) => (
             <Ionicons
               name={direction === 'right' ? 'chevron-forward' : 'chevron-back'}
               size={22}
-              color={Colors.dark20}
+              color={Colors.grey20}
             />
           )}
           minDate={now()}

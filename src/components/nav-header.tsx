@@ -33,7 +33,7 @@ export function HeaderLeft() {
           style={{ paddingHorizontal: 20 }}
           onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         >
-          <Ionicons name="menu" size={24} color={Colors.dark20} />
+          <Ionicons name="menu" size={24} color={Colors.grey20} />
         </TouchableOpacity>
       )
   }

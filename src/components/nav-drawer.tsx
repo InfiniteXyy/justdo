@@ -17,7 +17,7 @@ export function DrawerNavigator() {
   return (
     <SafeAreaView style={{ height: '100%' }}>
       {!isDrawerFixed && (
-        <Text margin-20 text60 dark30 style={{ fontWeight: 'bold' }}>
+        <Text margin-20 text60 grey30 style={{ fontWeight: 'bold' }}>
           {dayjs().format('MM 月 DD 日')}
         </Text>
       )}
@@ -45,12 +45,12 @@ export function DrawerNavigator() {
       {!isDrawerFixed ? (
         <View row right centerV>
           <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
-            <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
+            <Ionicons name="settings-outline" size={18} color={Colors.grey20} />
           </TouchableOpacity>
         </View>
       ) : (
         <TouchableOpacity padding-20 onPress={() => navigation.navigate('Setting')}>
-          <Ionicons name="settings-outline" size={18} color={Colors.dark20} />
+          <Ionicons name="settings-outline" size={18} color={Colors.grey20} />
         </TouchableOpacity>
       )}
     </SafeAreaView>

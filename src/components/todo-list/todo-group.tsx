@@ -20,13 +20,13 @@ export function TodoGroup(props: TodoGroupProps) {
         onPress={() => setExpanded(!expanded)}
         sectionHeader={
           <View row centerV marginH-12 marginV-10>
-            <Text text80M dark30 marginR-4>
+            <Text text80M grey30 marginR-4>
               {label}
             </Text>
-            <Ionicons name={expanded ? 'caret-up' : 'caret-down'} size={12} color={Colors.dark30} />
+            <Ionicons name={expanded ? 'caret-up' : 'caret-down'} size={12} color={Colors.grey30} />
             {subLabel && (
               <View flexG right>
-                <Text text90L dark60 marginR-4>
+                <Text text90L grey60 marginR-4>
                   {subLabel}
                 </Text>
               </View>

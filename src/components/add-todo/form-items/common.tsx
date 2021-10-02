@@ -17,7 +17,7 @@ export function FormItem(props: {
       <View row spread height={40} centerV bg-white paddingH-20>
         <View row centerV>
           {icon}
-          <Text dark10>{label}</Text>
+          <Text grey10>{label}</Text>
         </View>
         {children}
       </View>
@@ -29,7 +29,7 @@ export function FormItemGroup(props: { label: string; children: React.ReactNode 
   const { label, children } = props
   return (
     <View marginT-20>
-      <Text tex80 dark20 marginB-10 style={{ fontWeight: '700' }}>
+      <Text tex80 grey20 marginB-10 style={{ fontWeight: '700' }}>
         {label}
       </Text>
       {children}

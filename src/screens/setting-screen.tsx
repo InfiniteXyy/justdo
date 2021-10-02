@@ -14,9 +14,9 @@ export default function SettingScreen() {
           <Text text70>固定侧边栏</Text>
           <Switch value={isDrawerFixed} onValueChange={setDrawerFixed} />
         </View>
-        <View backgroundColor={Colors.dark80} height={1} marginH-10 />
-        <View backgroundColor={Colors.dark80} height={1} marginH-10 />
-        <TouchableHighlight onPress={() => {}}>
+        <View backgroundColor={Colors.grey80} height={1} marginH-10 />
+        <View backgroundColor={Colors.grey80} height={1} marginH-10 />
+        <TouchableHighlight onPress={() => navigation.navigate('About')}>
           <View centerV padding-10 backgroundColor={Colors.white}>
             <Text text70>关于</Text>
           </View>

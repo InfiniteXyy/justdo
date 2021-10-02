@@ -19,7 +19,7 @@ export function StartTimeField() {
   return (
     <>
       <Chip
-        backgroundColor={Colors.dark20}
+        backgroundColor={Colors.grey20}
         labelStyle={{ color: 'white' }}
         borderRadius={8}
         containerStyle={{ borderWidth: 0 }}
