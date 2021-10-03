@@ -4,15 +4,15 @@ import { useFormikContext } from 'formik'
 import React, { useMemo, useState } from 'react'
 import { Chip, Colors } from 'react-native-ui-lib'
 import { todoFilters } from '../../../constant'
+import { TodoType } from '../../../data'
 import { ModalMenu } from '../../ui'
-import { AddTodoFormType } from '../form.model'
 
 export function StartTimeField() {
   const [modalVisible, setModalVisible] = useState(false)
-  const { values, setFieldValue } = useFormikContext<AddTodoFormType>()
+  const { values, setFieldValue } = useFormikContext<TodoType>()
 
   const valueDisplay = useMemo(() => {
-    if (values.startAt) return dayjs(values.startAt).format('MM 月 DD 日')
+    if (values.date?.start) return dayjs(values.date.start).format('MM 月 DD 日')
     return todoFilters[values.plan].title
   }, [values])
 

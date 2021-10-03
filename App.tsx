@@ -7,9 +7,12 @@ import { Platform, UIManager } from 'react-native'
 import 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 import { Colors, View } from 'react-native-ui-lib'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { ArrangeTodo, ArrangeTodoModal } from './src/components/arrange-todo'
+import { useAPIConfig } from './src/hooks/use-api-config'
 import useCachedResources from './src/hooks/use-cached-resources'
 import Navigation from './src/navigation'
+import NotionSettingScreen from './src/screens/notion-setting-screen'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -29,12 +32,22 @@ if (Platform.OS === 'android') {
   }
 }
 
+const queryClient = new QueryClient({})
+
 export default function App() {
   const isLoadingComplete = useCachedResources()
 
-  if (!isLoadingComplete) {
-    return null
-  } else {
+  const { databaseId } = useAPIConfig()
+
+  function renderMain() {
+    if (!databaseId) {
+      return <NotionSettingScreen />
+    }
+
+    if (!isLoadingComplete) {
+      return null
+    }
+
     return (
       <View height="100%">
         <Navigation />
@@ -44,4 +57,6 @@ export default function App() {
       </View>
     )
   }
+
+  return <QueryClientProvider client={queryClient}>{renderMain()}</QueryClientProvider>
 }

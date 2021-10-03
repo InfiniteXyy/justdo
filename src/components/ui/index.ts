@@ -1,4 +1,6 @@
 export * from './checkbox'
 export * from './dropdown-menu'
+export * from './fake-progress'
 export * from './modal'
 export * from './modal-menu'
+export * from './spinner'

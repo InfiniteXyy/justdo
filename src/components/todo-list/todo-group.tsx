@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Colors, ExpandableSection, Text, View } from 'react-native-ui-lib'
-import { ITodo } from '../../data'
+import { TodoType } from '../../data'
 import { TodoItem } from './todo-item'
 
 interface TodoGroupProps {
-  todos: ITodo[]
+  todos: TodoType[]
   label: string
   subLabel?: string
 }

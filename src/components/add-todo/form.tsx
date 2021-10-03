@@ -3,27 +3,30 @@ import { Formik } from 'formik'
 import React from 'react'
 import { Keyboard, ScrollView, TextInput } from 'react-native'
 import { Colors, Text, View } from 'react-native-ui-lib'
-import { PlanType } from '../../constant'
+import { isPlanType } from '../../constant'
+import { TodoType } from '../../data'
 import { useTodoListRoute } from '../../hooks/use-todolist-route'
+import { Spinner } from '../ui'
 import { FormError } from './form-items/common'
 import { StartTimeField } from './form-items/start-time'
-import { AddTodoFormSchema, AddTodoFormType } from './form.model'
+import { AddTodoFormSchema } from './form.model'
 
-export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; onClose: () => void }) {
+export function AddTodoForm(props: { onSubmit: (form: Omit<TodoType, 'id'>) => Promise<void>; onClose: () => void }) {
   const currentPlan = useTodoListRoute((state) => state.currentKey)
   return (
-    <Formik<AddTodoFormType>
+    <Formik<Omit<TodoType, 'id'>>
       initialValues={{
+        plan: isPlanType(currentPlan) ? currentPlan : 'plan/inbox',
         description: null,
-        startAt: null,
         title: '',
-        plan: currentPlan.startsWith('plan') ? (currentPlan as PlanType) : 'plan/inbox',
+        date: null,
+        status: false,
       }}
       onSubmit={props.onSubmit}
       validationSchema={AddTodoFormSchema}
       validateOnBlur={false}
     >
-      {({ submitForm, values, handleChange, handleBlur }) => {
+      {({ submitForm, values, handleChange, handleBlur, isSubmitting }) => {
         return (
           <>
             <View row centerV spread>
@@ -36,7 +39,7 @@ export function AddTodoForm(props: { onSubmit: (form: AddTodoFormType) => void; 
                   <StartTimeField />
                 </View>
               </View>
-              <Ionicons name="ios-send-sharp" size={18} style={{ padding: 16 }} color={Colors.grey30} onPress={submitForm} />
+              {isSubmitting ? <Spinner /> : <Ionicons name="ios-send-sharp" size={18} style={{ padding: 16 }} color={Colors.grey30} onPress={submitForm} />}
             </View>
             <ScrollView onScrollBeginDrag={Keyboard.dismiss}>
               <View marginH-20>

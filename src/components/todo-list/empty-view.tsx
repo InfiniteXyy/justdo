@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native-ui-lib'
+import { Text,View } from 'react-native-ui-lib'
 import { useTodoListRoute } from '../../hooks/use-todolist-route'
 
 export function EmptyView() {
@@ -10,9 +10,9 @@ export function EmptyView() {
         {(() => {
           switch (currentKey) {
             case 'archived/finished':
-              return '还没有删除的任务哦'
+              return '空空如也'
             case 'archived/removed':
-              return '还没有完成的任务哦'
+              return '空空如也'
             default:
               return '空空如也，快去创建待办吧'
           }

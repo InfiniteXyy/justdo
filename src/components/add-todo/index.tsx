@@ -1,21 +1,21 @@
 import { Ionicons } from '@expo/vector-icons'
-import { observer } from 'mobx-react-lite'
 import React, { useCallback } from 'react'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 import { Button, Colors, Modal } from 'react-native-ui-lib'
 import { useCreateTodo } from '../../api'
-import { todoList } from '../../data'
+import { TodoType } from '../../data'
+import { useTodoListRoute } from '../../hooks/use-todolist-route'
 import { AddTodoForm } from './form'
-import { AddTodoFormType } from './form.model'
 
-export const AddTodo = observer(({ visible, onClose, onOpen }: { visible: boolean; onClose: () => void; onOpen: () => void }) => {
+export const AddTodo = ({ visible, onClose, onOpen }: { visible: boolean; onClose: () => void; onOpen: () => void }) => {
   const { mutateAsync: createTodo } = useCreateTodo()
-  const handleAdd = useCallback(async (form: AddTodoFormType) => {
-    createTodo(form)
-    todoList.addTodo(form)
+  const { setCurrentKey } = useTodoListRoute()
+  const handleAdd = useCallback(async (form: Omit<TodoType, 'id'>) => {
+    await createTodo(form)
     Toast.show({ type: 'success', text1: '添加了一个新的任务到收集箱', text2: form.title })
+    setCurrentKey(form.plan)
     onClose()
   }, [])
 
@@ -38,7 +38,7 @@ export const AddTodo = observer(({ visible, onClose, onOpen }: { visible: boolea
       </Button>
     </>
   )
-})
+}
 
 const styles = StyleSheet.create({
   modal: {

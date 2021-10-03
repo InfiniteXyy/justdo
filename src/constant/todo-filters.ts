@@ -12,3 +12,7 @@ export const todoFilters = {
 export type AllFilterType = keyof typeof todoFilters
 
 export type PlanType = { [key in AllFilterType]: key extends `plan/${string}` ? key : never }[AllFilterType]
+
+export const getPlanTitle = (type: AllFilterType) => todoFilters[type].title
+
+export const isPlanType = (type: AllFilterType): type is PlanType => type.startsWith('plan/')
