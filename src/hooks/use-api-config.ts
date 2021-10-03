@@ -1,12 +1,12 @@
 import { Client } from '@notionhq/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useMemo } from 'react'
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
 type APIConfigState = {
   databaseId: string
   authToken: string
-  notion: Client
   pageId: string
   setAuthToken(token: string): Client
   setDatabaseId(databaseId: string): void
@@ -19,10 +19,9 @@ export const useAPIConfig = create<APIConfigState>(
       authToken: '',
       databaseId: '',
       pageId: '',
-      notion: new Client({ auth: '' }),
       setAuthToken(token: string) {
         const client = new Client({ auth: token })
-        set({ authToken: token, notion: client })
+        set({ authToken: token })
         return client
       },
       setDatabaseId(databaseId: string) {
@@ -39,3 +38,8 @@ export const useAPIConfig = create<APIConfigState>(
     }
   )
 )
+
+export const useNotion = () => {
+  const { authToken } = useAPIConfig()
+  return useMemo(() => new Client({ auth: authToken }), [])
+}

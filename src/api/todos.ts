@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { PlanType } from '../constant'
 import { TodoType } from '../data'
-import { useAPIConfig } from '../hooks/use-api-config'
+import { useAPIConfig, useNotion } from '../hooks/use-api-config'
 import { QueryKey } from './key'
 import { getNotionProperties, parseNotionProperty } from './utils'
 
 export function useTodos(params: { archived: boolean; plan?: PlanType }) {
-  const { notion, databaseId } = useAPIConfig()
+  const notion = useNotion()
+  const { databaseId } = useAPIConfig()
   return useQuery([QueryKey.todos, 'list', params], async () => {
     const { archived } = params
     console.log('fetching todos')
@@ -17,10 +18,9 @@ export function useTodos(params: { archived: boolean; plan?: PlanType }) {
 
 export function useUpdateTodo() {
   const client = useQueryClient()
-  const { notion, authToken } = useAPIConfig()
+  const notion = useNotion()
   return useMutation(
     async (params: TodoType) => {
-      console.info(authToken)
       return await notion.pages.update({
         page_id: params.id,
         properties: getNotionProperties(params),
@@ -28,7 +28,6 @@ export function useUpdateTodo() {
     },
     {
       onSettled: () => {
-        throw '123'
         client.invalidateQueries()
       },
     }
@@ -37,7 +36,7 @@ export function useUpdateTodo() {
 
 export function useArchiveTodo() {
   const client = useQueryClient()
-  const { notion } = useAPIConfig()
+  const notion = useNotion()
   return useMutation(
     async (params: TodoType & { archived: boolean }) => {
       return await notion.pages.update({
@@ -56,7 +55,8 @@ export function useArchiveTodo() {
 
 export function useCreateTodo() {
   const client = useQueryClient()
-  const { notion, databaseId } = useAPIConfig()
+  const { databaseId } = useAPIConfig()
+  const notion = useNotion()
 
   return useMutation(
     async (todo: Omit<TodoType, 'id'>) => {
