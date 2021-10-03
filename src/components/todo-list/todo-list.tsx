@@ -20,7 +20,7 @@ export const TodoList = gestureHandlerRootHOC(() => {
 
   return (
     <>
-      {isFetching && <FakeProgress />}
+      {isFetching && <FakeProgress key={currentKey} />}
 
       {!isFetching && todoGroups.every((i) => i.todos.length === 0) ? (
         <EmptyView />

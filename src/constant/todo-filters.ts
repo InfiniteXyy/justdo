@@ -6,7 +6,7 @@ export const todoFilters = {
   today: { title: '今日待办', icon: 'sunny', divider: true },
   calendar: { title: '日程', icon: 'calendar' },
   'archived/finished': { title: '已完成', icon: 'checkmark', divider: true },
-  'archived/removed': { title: '回收站', icon: 'trash' },
+  'archived/removed': { title: '回收站', icon: 'trash', hidden: true },
 } as const
 
 export type AllFilterType = keyof typeof todoFilters

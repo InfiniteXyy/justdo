@@ -10,23 +10,25 @@ export function useTodos(params: { archived: boolean; plan?: PlanType }) {
   return useQuery([QueryKey.todos, 'list', params], async () => {
     const { archived } = params
     console.log('fetching todos')
-    const db = await notion.databases.query({ database_id: databaseId, page_size: 100, archived })
+    const db = await notion.databases.query({ database_id: databaseId, page_size: 1000, archived })
     return db.results.map((i) => ({ id: i.id, ...parseNotionProperty(i.properties) })) as TodoType[]
   })
 }
 
 export function useUpdateTodo() {
   const client = useQueryClient()
-  const { notion } = useAPIConfig()
+  const { notion, authToken } = useAPIConfig()
   return useMutation(
     async (params: TodoType) => {
+      console.info(authToken)
       return await notion.pages.update({
         page_id: params.id,
         properties: getNotionProperties(params),
       })
     },
     {
-      onSuccess: () => {
+      onSettled: () => {
+        throw '123'
         client.invalidateQueries()
       },
     }
@@ -45,7 +47,7 @@ export function useArchiveTodo() {
       })
     },
     {
-      onSuccess: () => {
+      onSettled: () => {
         client.invalidateQueries()
       },
     }
@@ -64,7 +66,7 @@ export function useCreateTodo() {
       })
     },
     {
-      onSuccess: () => {
+      onSettled: () => {
         client.invalidateQueries()
       },
     }

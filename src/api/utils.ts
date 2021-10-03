@@ -34,3 +34,42 @@ export function getNotionProperties(todo: Omit<TodoType, 'id'>): any {
     },
   }
 }
+
+export const getDatabaseProperties = (): any => {
+  return {
+    Status: {
+      checkbox: {},
+    },
+    Title: {
+      title: {},
+    },
+    Description: {
+      rich_text: {},
+    },
+    Plan: {
+      select: {
+        options: [
+          {
+            name: 'plan/inbox',
+            color: 'green',
+          },
+          {
+            name: 'plan/next',
+            color: 'blue',
+          },
+          {
+            name: 'plan/maybe',
+            color: 'yellow',
+          },
+          {
+            name: 'plan/wait',
+            color: 'brown',
+          },
+        ],
+      },
+    },
+    Date: {
+      date: {},
+    },
+  }
+}

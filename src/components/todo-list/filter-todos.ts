@@ -31,7 +31,7 @@ export function filterTodos(todoList: TodoType[], currentKey: AllFilterType): { 
   }
   const activeTodos = todoList.filter((i) => !i.status)
   if (currentKey.startsWith('plan')) {
-    return [{ label: todoFilters[currentKey].title, todos: activeTodos.filter((i) => i.plan === currentKey) }]
+    return [{ label: todoFilters[currentKey].title, todos: activeTodos.filter((i) => i.plan === currentKey && i.date === null) }]
   }
   return [{ label: '全部', todos: activeTodos }]
 }

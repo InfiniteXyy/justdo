@@ -15,6 +15,11 @@ export default function SettingScreen() {
           <Switch value={isDrawerFixed} onValueChange={setDrawerFixed} />
         </View>
         <View backgroundColor={Colors.grey80} height={1} marginH-10 />
+        <TouchableHighlight onPress={() => navigation.navigate('Notion')}>
+          <View centerV padding-10 backgroundColor={Colors.white}>
+            <Text text70>设置 api</Text>
+          </View>
+        </TouchableHighlight>
         <View backgroundColor={Colors.grey80} height={1} marginH-10 />
         <TouchableHighlight onPress={() => navigation.navigate('About')}>
           <View centerV padding-10 backgroundColor={Colors.white}>

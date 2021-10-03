@@ -10,6 +10,7 @@ import React from 'react'
 import { Colors } from 'react-native-ui-lib'
 import AboutScreen from '../screens/about-screen'
 import HomeScreen from '../screens/home-screen'
+import NotionSettingScreen from '../screens/notion-setting-screen'
 import SettingScreen from '../screens/setting-screen'
 
 export default function Navigation() {
@@ -35,6 +36,11 @@ function RootNavigator() {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Setting" options={{ headerShown: true, headerTitle: '设置', headerBackTitleVisible: false }} component={SettingScreen} />
       <Stack.Screen name="About" options={{ headerShown: true, headerTitle: '关于', headerBackTitleVisible: false }} component={AboutScreen} />
+      <Stack.Screen
+        name="Notion"
+        options={{ headerShown: true, headerTitle: 'Notion 接入设置', headerBackTitleVisible: false }}
+        component={NotionSettingScreen}
+      />
     </Stack.Navigator>
   )
 }

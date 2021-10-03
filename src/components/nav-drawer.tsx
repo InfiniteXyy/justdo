@@ -25,6 +25,7 @@ export function DrawerNavigator() {
         {Object.entries(todoFilters).map((entry) => {
           const key = entry[0] as AllFilterType
           const value = entry[1]
+          if (get(value, 'hidden')) return null
           return (
             <React.Fragment key={key}>
               {get(value, 'divider') && <View height={1} backgroundColor="#f1f1f1" marginV-8 />}
